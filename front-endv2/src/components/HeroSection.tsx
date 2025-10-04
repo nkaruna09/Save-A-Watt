@@ -25,11 +25,11 @@ export function HeroSection({ onGetStarted }: HeroSectionProps) {
                 Our AI analyzes your energy usage and helps you save money every month.
               </p>
             </div>
-            
+
             <div className="flex flex-col sm:flex-row gap-4 items-start">
               <Button 
                 onClick={onGetStarted}
-                size="lg" 
+                size="lg"
                 className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-3"
               >
                 Start Saving Money
@@ -60,7 +60,7 @@ export function HeroSection({ onGetStarted }: HeroSectionProps) {
           <div className="relative">
             <div className="relative z-10">
               <ImageWithFallback
-                src="https://images.unsplash.com/photo-1704536345283-18e559576ec2?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxlbmVyZ3klMjBlZmZpY2llbmN5JTIwaG9tZSUyMGxpZ2h0YnVsYnxlbnwxfHx8fDE3NTk1NDk4ODF8MA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral"
+                src="https://images.unsplash.com/photo-1704536345283-18e559576ec2?crop=entropy&cs=tinysrgb&fit=max&fm=jpg"
                 alt="Energy efficient home with LED lightbulb"
                 className="w-full h-[400px] object-cover rounded-2xl shadow-2xl"
               />
