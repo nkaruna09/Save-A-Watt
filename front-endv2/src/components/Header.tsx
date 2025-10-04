@@ -1,6 +1,7 @@
+// Header.tsx
+import { useState } from "react";
 import { Button } from "./ui/button";
 import { Zap, Menu } from "lucide-react";
-import { useState } from "react";
 
 interface HeaderProps {
   onGetStarted: () => void;
@@ -23,35 +24,25 @@ export function Header({ onGetStarted }: HeaderProps) {
             </div>
           </div>
 
-          {/* Desktop Navigation */}
           <nav className="hidden md:flex items-center gap-8">
             <a href="#how-it-works" className="text-gray-600 hover:text-gray-900">How It Works</a>
             <a href="#demo" className="text-gray-600 hover:text-gray-900">Try Demo</a>
             <a href="#about" className="text-gray-600 hover:text-gray-900">About</a>
-            <Button onClick={onGetStarted} size="sm">
-              Get Started
-            </Button>
+            <Button onClick={onGetStarted} size="sm">Get Started</Button>
           </nav>
 
-          {/* Mobile Menu Button */}
-          <button 
-            className="md:hidden"
-            onClick={() => setIsMenuOpen(!isMenuOpen)}
-          >
+          <button className="md:hidden" onClick={() => setIsMenuOpen(!isMenuOpen)}>
             <Menu className="w-6 h-6 text-gray-600" />
           </button>
         </div>
 
-        {/* Mobile Navigation */}
         {isMenuOpen && (
           <div className="md:hidden py-4 border-t border-gray-200">
             <nav className="flex flex-col gap-4">
               <a href="#how-it-works" className="text-gray-600">How It Works</a>
               <a href="#demo" className="text-gray-600">Try Demo</a>
               <a href="#about" className="text-gray-600">About</a>
-              <Button onClick={onGetStarted} size="sm" className="w-fit">
-                Get Started
-              </Button>
+              <Button onClick={onGetStarted} size="sm" className="w-fit">Get Started</Button>
             </nav>
           </div>
         )}
