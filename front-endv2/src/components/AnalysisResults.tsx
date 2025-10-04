@@ -234,7 +234,7 @@ export function AnalysisResults({ data }: AnalysisResultsProps) {
                 <CardHeader>
                   <div className="flex justify-between items-start">
                     <div>
-                      <CardTitle className="text-xl">{subsidy.name}</CardTitle>
+                      <CardTitle className="text-xl text-black">{subsidy.name}</CardTitle>
                       <CardDescription className="text-green-600 font-semibold text-lg">
                         {subsidy.amount}
                       </CardDescription>

@@ -26,14 +26,14 @@ export function Footer() {
               and personalized recommendations. Making energy efficiency accessible to everyone.
             </p>
             
-            <div className="relative overflow-hidden rounded-xl">
+            {/* <div className="relative overflow-hidden rounded-xl">
               <ImageWithFallback
                 src="https://images.unsplash.com/photo-1759143503081-e8b19c76af22?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxzb2xhciUyMHBhbmVscyUyMGNvbW11bml0eSUyMGhvdXNpbmd8ZW58MXx8fHwxNzU5NTQ5OTEwfDA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral"
                 alt="Solar panels in community housing development"
                 className="w-full h-32 object-cover opacity-60"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-blue-900/50 to-transparent"></div>
-            </div>
+            </div> */}
           </div>
 
           <div>

@@ -19,17 +19,22 @@ interface MonthlyBillData {
   month: string;
   year: string;
   billType: 'TOU' | 'Tiered' | 'Flat' | '';
-  // TOU fields
-  peakKwh: string;
-  offPeakKwh: string;
-  midPeakKwh: string;
-  // Tiered fields
-  tier1Kwh: string;
-  tier2Kwh: string;
-  // Flat fields
-  totalKwh: string;
-  // Common fields
-  totalCost: string;
+  // TOU
+  peakRate: string;
+  peakTotal: string;
+  offPeakRate: string;
+  offPeakTotal: string;
+  midPeakRate: string;
+  midPeakTotal: string;
+  // Tiered
+  tier1Rate: string;
+  tier1Total: string;
+  tier2Rate: string;
+  tier2Total: string;
+  // Flat
+  flatRate: string;
+  flatTotal: string;
+  // Common
   homeSize: string;
   residents: string;
   zipCode: string;
@@ -43,13 +48,18 @@ export function BillUpload({ onAnalyze }: BillUploadProps) {
       month: '',
       year: '',
       billType: '',
-      peakKwh: '',
-      offPeakKwh: '',
-      midPeakKwh: '',
-      tier1Kwh: '',
-      tier2Kwh: '',
-      totalKwh: '',
-      totalCost: '',
+      peakRate: '',
+      peakTotal: '',
+      offPeakRate: '',
+      offPeakTotal: '',
+      midPeakRate: '',
+      midPeakTotal: '',
+      tier1Rate: '',
+      tier1Total: '',
+      tier2Rate: '',
+      tier2Total: '',
+      flatRate: '',
+      flatTotal: '',
       homeSize: '',
       residents: '',
       zipCode: ''
@@ -77,13 +87,18 @@ export function BillUpload({ onAnalyze }: BillUploadProps) {
       month: '',
       year: '',
       billType: '',
-      peakKwh: '',
-      offPeakKwh: '',
-      midPeakKwh: '',
-      tier1Kwh: '',
-      tier2Kwh: '',
-      totalKwh: '',
-      totalCost: '',
+      peakRate: '',
+      peakTotal: '',
+      offPeakRate: '',
+      offPeakTotal: '',
+      midPeakRate: '',
+      midPeakTotal: '',
+      tier1Rate: '',
+      tier1Total: '',
+      tier2Rate: '',
+      tier2Total: '',
+      flatRate: '',
+      flatTotal: '',
       homeSize: '',
       residents: '',
       zipCode: ''
@@ -105,10 +120,12 @@ export function BillUpload({ onAnalyze }: BillUploadProps) {
 
   const handleManualSubmit = () => {
     const validBills = monthlyBills.filter(bill => {
-      const hasBasicInfo = bill.month && bill.year && bill.billType && bill.totalCost && bill.zipCode;
-      const hasUsageData = bill.billType === 'TOU' ? (bill.peakKwh || bill.offPeakKwh || bill.midPeakKwh) :
-                          bill.billType === 'Tiered' ? (bill.tier1Kwh || bill.tier2Kwh) :
-                          bill.billType === 'Flat' ? bill.totalKwh : false;
+      const hasBasicInfo = bill.month && bill.year && bill.billType && bill.zipCode;
+      const hasUsageData = bill.billType === 'TOU' ?
+        (bill.peakRate || bill.peakTotal || bill.offPeakRate || bill.offPeakTotal || bill.midPeakRate || bill.midPeakTotal) :
+        bill.billType === 'Tiered' ?
+          (bill.tier1Rate || bill.tier1Total || bill.tier2Rate || bill.tier2Total) :
+        bill.billType === 'Flat' ? (bill.flatRate || bill.flatTotal) : false;
       return hasBasicInfo && hasUsageData;
     });
 
@@ -130,7 +147,6 @@ export function BillUpload({ onAnalyze }: BillUploadProps) {
   };
 
   const handleDemoAnalysis = () => {
-    // Simulate uploading sample bills with different types
     onAnalyze({
       type: 'demo',
       data: [
@@ -139,10 +155,18 @@ export function BillUpload({ onAnalyze }: BillUploadProps) {
           month: 'November',
           year: '2024',
           billType: 'TOU',
-          peakKwh: '250',
-          offPeakKwh: '400',
-          midPeakKwh: '200',
-          totalCost: '125',
+          peakRate: '0.20',
+          peakTotal: '50',
+          offPeakRate: '0.10',
+          offPeakTotal: '30',
+          midPeakRate: '0.15',
+          midPeakTotal: '40',
+          tier1Rate: '',
+          tier1Total: '',
+          tier2Rate: '',
+          tier2Total: '',
+          flatRate: '',
+          flatTotal: '',
           homeSize: '1200',
           residents: '3',
           zipCode: '10001'
@@ -151,11 +175,19 @@ export function BillUpload({ onAnalyze }: BillUploadProps) {
           id: 'demo2',
           month: 'October',
           year: '2024',
-          billType: 'TOU',
-          peakKwh: '280',
-          offPeakKwh: '380',
-          midPeakKwh: '190',
-          totalCost: '132',
+          billType: 'Tiered',
+          peakRate: '',
+          peakTotal: '',
+          offPeakRate: '',
+          offPeakTotal: '',
+          midPeakRate: '',
+          midPeakTotal: '',
+          tier1Rate: '0.12',
+          tier1Total: '42',
+          tier2Rate: '0.18',
+          tier2Total: '60',
+          flatRate: '',
+          flatTotal: '',
           homeSize: '1200',
           residents: '3',
           zipCode: '10001'
@@ -164,11 +196,28 @@ export function BillUpload({ onAnalyze }: BillUploadProps) {
     });
   };
 
+  // Add a new state for common info
+  const [commonInfo, setCommonInfo] = useState({
+    homeSize: '',
+    kindOfHome: '',
+    adults: '',
+    children: '',
+    zipCode: '', 
+    annualIncome: ''
+  });
+
+  // Update handler
+  const updateCommonInfo = (field: 'homeSize' | 'kindOfHome' | 'adults' | 'children' | 'zipCode' | 'annualIncome', value: string) => {
+    setCommonInfo(prev => ({ ...prev, [field]: value }));
+  };
+
   const canSubmitManual = monthlyBills.some(bill => {
-    const hasBasicInfo = bill.month && bill.year && bill.billType && bill.totalCost && bill.zipCode;
-    const hasUsageData = bill.billType === 'TOU' ? (bill.peakKwh || bill.offPeakKwh || bill.midPeakKwh) :
-                        bill.billType === 'Tiered' ? (bill.tier1Kwh || bill.tier2Kwh) :
-                        bill.billType === 'Flat' ? bill.totalKwh : false;
+    const hasBasicInfo = bill.month && bill.year && bill.billType && bill.zipCode;
+    const hasUsageData = bill.billType === 'TOU' ?
+      (bill.peakRate || bill.peakTotal || bill.offPeakRate || bill.offPeakTotal || bill.midPeakRate || bill.midPeakTotal) :
+      bill.billType === 'Tiered' ?
+        (bill.tier1Rate || bill.tier1Total || bill.tier2Rate || bill.tier2Total) :
+      bill.billType === 'Flat' ? (bill.flatRate || bill.flatTotal) : false;
     return hasBasicInfo && hasUsageData;
   });
 
@@ -182,11 +231,70 @@ export function BillUpload({ onAnalyze }: BillUploadProps) {
       
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <div className="text-center mb-16 animate-bounce-in">
-          {/* <h2 className="text-5xl font-bold mb-6">
-            <span className="bg-gradient-to-r from-white via-blue-100 to-white bg-clip-text text-transparent">
-              Try Our Demo
-            </span>
-          </h2> */}
+          <p className="text-xl text-gray-300 max-w-4xl mx-auto">
+            Enter your information below to get personalized energy-saving advice.
+          </p>
+        </div>
+        {/* Common Fields */}
+        <div className="space-y-6">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <div>
+              <Label className="text-xs mb-1 block">Home Size (sq ft)</Label>
+              <Input
+                placeholder="1200"
+                value={commonInfo.homeSize}
+                onChange={(e) => updateCommonInfo('homeSize', e.target.value)}
+              />
+            </div>
+            <div>
+              <Label className="text-xs mb-1 block">Type of Home</Label>
+              <Input
+                placeholder="3"
+                value={commonInfo.kindOfHome}
+                onChange={(e) => updateCommonInfo('kindOfHome', e.target.value)}
+              />
+            </div>
+            <div>
+              <Label className="text-xs mb-1 block">ZIP Code</Label>
+              <Input
+                placeholder="10001"
+                value={commonInfo.zipCode}
+                onChange={(e) => updateCommonInfo('zipCode', e.target.value)}
+              />
+            </div>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <div>
+              <Label className="text-xs mb-1 block"># of Adults</Label>
+              <Input
+                placeholder="1200"
+                value={commonInfo.adults}
+                onChange={(e) => updateCommonInfo('adults', e.target.value)}
+              />
+            </div>
+            <div>
+              <Label className="text-xs mb-1 block"># of Children</Label>
+              <Input
+                placeholder="3"
+                value={commonInfo.children}
+                onChange={(e) => updateCommonInfo('children', e.target.value)}
+              />
+            </div>
+            <div>
+              <Label className="text-xs mb-1 block">Annual Income</Label>
+              <Input
+                placeholder="10001"
+                value={commonInfo.annualIncome}
+                onChange={(e) => updateCommonInfo('annualIncome', e.target.value)}
+              />
+            </div>
+          </div>
+
+          {/* Add space after final row */}
+          <div className="h-6"></div>
+        </div>
+        <div className="text-center mb-16 animate-bounce-in">
           <p className="text-xl text-gray-300 max-w-4xl mx-auto">
             Upload your energy bills or enter your usage details to get personalized energy-saving advice.
           </p>
@@ -214,6 +322,7 @@ export function BillUpload({ onAnalyze }: BillUploadProps) {
               </TabsTrigger>
             </TabsList>
             
+            {/* Demo Content */}
             <TabsContent value="demo" className="space-y-6 animate-slide-up">
               <Card className="glass-strong border-white/10 hover-lift">
                 <CardHeader>
@@ -224,7 +333,7 @@ export function BillUpload({ onAnalyze }: BillUploadProps) {
                     Try Sample Analysis
                   </CardTitle>
                   <CardDescription className="text-gray-300">
-                    See how our AI works with sample Time-of-Use electricity bills from a 3-person household
+                    See how our AI works with sample Time-of-Use and Tiered electricity bills
                   </CardDescription>
                 </CardHeader>
                 <CardContent>
@@ -234,26 +343,11 @@ export function BillUpload({ onAnalyze }: BillUploadProps) {
                       Sample Household:
                     </h4>
                     <ul className="text-gray-200 space-y-2">
-                      <li className="flex items-center gap-2">
-                        <div className="w-2 h-2 bg-blue-400 rounded-full"></div>
-                        1,200 sq ft apartment in New York
-                      </li>
-                      <li className="flex items-center gap-2">
-                        <div className="w-2 h-2 bg-green-400 rounded-full"></div>
-                        3 residents
-                      </li>
-                      <li className="flex items-center gap-2">
-                        <div className="w-2 h-2 bg-purple-400 rounded-full"></div>
-                        2 months of Time-of-Use billing data
-                      </li>
-                      <li className="flex items-center gap-2">
-                        <div className="w-2 h-2 bg-yellow-400 rounded-full"></div>
-                        Peak/Off-Peak/Mid-Peak usage tracking
-                      </li>
-                      <li className="flex items-center gap-2">
-                        <div className="w-2 h-2 bg-pink-400 rounded-full"></div>
-                        Average monthly bill: $128
-                      </li>
+                      <li className="flex items-center gap-2"><div className="w-2 h-2 bg-blue-400 rounded-full"></div>1,200 sq ft apartment in New York</li>
+                      <li className="flex items-center gap-2"><div className="w-2 h-2 bg-green-400 rounded-full"></div>3 residents</li>
+                      <li className="flex items-center gap-2"><div className="w-2 h-2 bg-purple-400 rounded-full"></div>2 months of billing data (TOU & Tiered)</li>
+                      <li className="flex items-center gap-2"><div className="w-2 h-2 bg-yellow-400 rounded-full"></div>Rates and totals tracked per category</li>
+                      <li className="flex items-center gap-2"><div className="w-2 h-2 bg-pink-400 rounded-full"></div>Average monthly bill: $128</li>
                     </ul>
                   </div>
                   <Button 
@@ -267,6 +361,7 @@ export function BillUpload({ onAnalyze }: BillUploadProps) {
               </Card>
             </TabsContent>
 
+            {/* Upload Content */}
             <TabsContent value="upload" className="space-y-6 animate-slide-up">
               <Card>
                 <CardHeader>
@@ -290,12 +385,8 @@ export function BillUpload({ onAnalyze }: BillUploadProps) {
                     />
                     <label htmlFor="bill-upload" className="cursor-pointer">
                       <FileText className="w-12 h-12 text-gray-400 mx-auto mb-4" />
-                      <p className="text-gray-600 mb-2">
-                        Click to upload your bills
-                      </p>
-                      <p className="text-sm text-gray-500">
-                        Supports JPG, PNG, PDF files • Multiple files allowed
-                      </p>
+                      <p className="text-gray-600 mb-2">Click to upload your bills</p>
+                      <p className="text-sm text-gray-500">Supports JPG, PNG, PDF files • Multiple files allowed</p>
                     </label>
                   </div>
                   
@@ -306,11 +397,7 @@ export function BillUpload({ onAnalyze }: BillUploadProps) {
                         {selectedFiles.map((file, index) => (
                           <div key={index} className="flex items-center justify-between bg-gray-50 p-2 rounded">
                             <span className="text-sm text-gray-700 truncate">{file.name}</span>
-                            <Button
-                              variant="ghost"
-                              size="sm"
-                              onClick={() => removeFile(index)}
-                            >
+                            <Button variant="ghost" size="sm" onClick={() => removeFile(index)}>
                               <X className="w-4 h-4" />
                             </Button>
                           </div>
@@ -325,6 +412,7 @@ export function BillUpload({ onAnalyze }: BillUploadProps) {
               </Card>
             </TabsContent>
 
+            {/* Manual Entry Content */}
             <TabsContent value="manual" className="space-y-6 animate-slide-up">
               <Card>
                 <CardHeader>
@@ -336,6 +424,8 @@ export function BillUpload({ onAnalyze }: BillUploadProps) {
                     Manually enter your energy usage information. Add multiple months for better analysis.
                   </CardDescription>
                 </CardHeader>
+      
+
                 <CardContent className="space-y-6">
                   {monthlyBills.map((bill, index) => (
                     <div key={bill.id} className="border rounded-lg p-4 space-y-4">
@@ -345,11 +435,7 @@ export function BillUpload({ onAnalyze }: BillUploadProps) {
                           <span className="font-medium">Month {index + 1}</span>
                         </div>
                         {monthlyBills.length > 1 && (
-                          <Button
-                            variant="ghost"
-                            size="sm"
-                            onClick={() => removeMonthlyBill(bill.id)}
-                          >
+                          <Button variant="ghost" size="sm" onClick={() => removeMonthlyBill(bill.id)}>
                             <X className="w-4 h-4" />
                           </Button>
                         )}
@@ -360,37 +446,23 @@ export function BillUpload({ onAnalyze }: BillUploadProps) {
                         <div>
                           <Label className="text-sm font-medium mb-2 block">Month</Label>
                           <Select value={bill.month} onValueChange={(value) => updateMonthlyBill(bill.id, 'month', value)}>
-                            <SelectTrigger>
-                              <SelectValue placeholder="Select month" />
-                            </SelectTrigger>
-                            <SelectContent>
-                              {months.map(month => (
-                                <SelectItem key={month} value={month}>{month}</SelectItem>
-                              ))}
-                            </SelectContent>
+                            <SelectTrigger><SelectValue placeholder="Select month" /></SelectTrigger>
+                            <SelectContent>{months.map(month => <SelectItem key={month} value={month}>{month}</SelectItem>)}</SelectContent>
                           </Select>
                         </div>
                         <div>
                           <Label className="text-sm font-medium mb-2 block">Year</Label>
                           <Select value={bill.year} onValueChange={(value) => updateMonthlyBill(bill.id, 'year', value)}>
-                            <SelectTrigger>
-                              <SelectValue placeholder="Select year" />
-                            </SelectTrigger>
-                            <SelectContent>
-                              {[currentYear, currentYear - 1, currentYear - 2].map(year => (
-                                <SelectItem key={year} value={year.toString()}>{year}</SelectItem>
-                              ))}
-                            </SelectContent>
+                            <SelectTrigger><SelectValue placeholder="Select year" /></SelectTrigger>
+                            <SelectContent>{[currentYear, currentYear-1, currentYear-2].map(year => <SelectItem key={year} value={year.toString()}>{year}</SelectItem>)}</SelectContent>
                           </Select>
                         </div>
                         <div>
                           <Label className="text-sm font-medium mb-2 block">Bill Type</Label>
                           <Select value={bill.billType} onValueChange={(value) => updateMonthlyBill(bill.id, 'billType', value as any)}>
-                            <SelectTrigger>
-                              <SelectValue placeholder="Select bill type" />
-                            </SelectTrigger>
+                            <SelectTrigger><SelectValue placeholder="Select bill type" /></SelectTrigger>
                             <SelectContent>
-                              <SelectItem value="TOU">Time-of-Use (Peak/Off-Peak)</SelectItem>
+                              <SelectItem value="TOU">Time-of-Use (Peak/Off-Peak/Mid-Peak)</SelectItem>
                               <SelectItem value="Tiered">Tiered Pricing</SelectItem>
                               <SelectItem value="Flat">Flat Rate</SelectItem>
                             </SelectContent>
@@ -398,39 +470,28 @@ export function BillUpload({ onAnalyze }: BillUploadProps) {
                         </div>
                       </div>
 
-                      {/* Usage Data Based on Bill Type */}
+                      {/* Usage Fields by Bill Type */}
                       {bill.billType === 'TOU' && (
                         <div>
-                          <Label className="text-sm font-medium mb-2 block">
-                            Time-of-Use Usage (kWh)
-                          </Label>
+                          <Label className="text-sm font-medium mb-2 block">Time-of-Use Rates & Totals</Label>
                           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                             <div>
-                              <Label className="text-xs mb-2 block">Peak Usage</Label>
-                              <Input
-                                placeholder="e.g., 250"
-                                value={bill.peakKwh}
-                                onChange={(e) => updateMonthlyBill(bill.id, 'peakKwh', e.target.value)}
-                                className = "text-gray-600"
-                              />
+                              <Label className="text-xs mb-1 block">Peak Rate ($/kWh)</Label>
+                              <Input placeholder="0.20" value={bill.peakRate} onChange={(e) => updateMonthlyBill(bill.id, 'peakRate', e.target.value)} className="text-gray-600"/>
+                              <Label className="text-xs mb-1 block mt-2">Peak Total ($)</Label>
+                              <Input placeholder="50" value={bill.peakTotal} onChange={(e) => updateMonthlyBill(bill.id, 'peakTotal', e.target.value)} className="text-gray-600"/>
                             </div>
                             <div>
-                              <Label className="text-xs mb-2 block">Off-Peak Usage</Label>
-                              <Input
-                                placeholder="e.g., 400"
-                                value={bill.offPeakKwh}
-                                onChange={(e) => updateMonthlyBill(bill.id, 'offPeakKwh', e.target.value)}
-                                className = "text-gray-600"
-                              />
+                              <Label className="text-xs mb-1 block">Off-Peak Rate ($/kWh)</Label>
+                              <Input placeholder="0.10" value={bill.offPeakRate} onChange={(e) => updateMonthlyBill(bill.id, 'offPeakRate', e.target.value)} className="text-gray-600"/>
+                              <Label className="text-xs mb-1 block mt-2">Off-Peak Total ($)</Label>
+                              <Input placeholder="30" value={bill.offPeakTotal} onChange={(e) => updateMonthlyBill(bill.id, 'offPeakTotal', e.target.value)} className="text-gray-600"/>
                             </div>
                             <div>
-                              <Label className="text-xs mb-2 block">Mid-Peak Usage</Label>
-                              <Input
-                                placeholder="e.g., 200"
-                                value={bill.midPeakKwh}
-                                onChange={(e) => updateMonthlyBill(bill.id, 'midPeakKwh', e.target.value)}
-                                className = "text-gray-600"
-                              />
+                              <Label className="text-xs mb-1 block">Mid-Peak Rate ($/kWh)</Label>
+                              <Input placeholder="0.15" value={bill.midPeakRate} onChange={(e) => updateMonthlyBill(bill.id, 'midPeakRate', e.target.value)} className="text-gray-600"/>
+                              <Label className="text-xs mb-1 block mt-2">Mid-Peak Total ($)</Label>
+                              <Input placeholder="40" value={bill.midPeakTotal} onChange={(e) => updateMonthlyBill(bill.id, 'midPeakTotal', e.target.value)} className="text-gray-600"/>
                             </div>
                           </div>
                         </div>
@@ -438,27 +499,19 @@ export function BillUpload({ onAnalyze }: BillUploadProps) {
 
                       {bill.billType === 'Tiered' && (
                         <div>
-                          <Label className="text-sm font-medium mb-2 block">
-                            Tiered Usage (kWh)
-                          </Label>
+                          <Label className="text-sm font-medium mb-2 block">Tiered Rates & Totals</Label>
                           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                             <div>
-                              <Label className="text-xs mb-2 block">Tier 1 Usage</Label>
-                              <Input
-                                placeholder="e.g., 350"
-                                value={bill.tier1Kwh}
-                                onChange={(e) => updateMonthlyBill(bill.id, 'tier1Kwh', e.target.value)}
-                                className = "text-gray-600"
-                              />
+                              <Label className="text-xs mb-1 block">Tier 1 Rate ($/kWh)</Label>
+                              <Input placeholder="0.12" value={bill.tier1Rate} onChange={(e) => updateMonthlyBill(bill.id, 'tier1Rate', e.target.value)} className="text-gray-600"/>
+                              <Label className="text-xs mb-1 block mt-2">Tier 1 Total ($)</Label>
+                              <Input placeholder="42" value={bill.tier1Total} onChange={(e) => updateMonthlyBill(bill.id, 'tier1Total', e.target.value)} className="text-gray-600"/>
                             </div>
                             <div>
-                              <Label className="text-xs mb-2 block">Tier 2 Usage</Label>
-                              <Input
-                                placeholder="e.g., 500"
-                                value={bill.tier2Kwh}
-                                onChange={(e) => updateMonthlyBill(bill.id, 'tier2Kwh', e.target.value)}
-                                className = "text-gray-600"
-                              />
+                              <Label className="text-xs mb-1 block">Tier 2 Rate ($/kWh)</Label>
+                              <Input placeholder="0.18" value={bill.tier2Rate} onChange={(e) => updateMonthlyBill(bill.id, 'tier2Rate', e.target.value)} className="text-gray-600"/>
+                              <Label className="text-xs mb-1 block mt-2">Tier 2 Total ($)</Label>
+                              <Input placeholder="60" value={bill.tier2Total} onChange={(e) => updateMonthlyBill(bill.id, 'tier2Total', e.target.value)} className="text-gray-600"/>
                             </div>
                           </div>
                         </div>
@@ -466,81 +519,37 @@ export function BillUpload({ onAnalyze }: BillUploadProps) {
 
                       {bill.billType === 'Flat' && (
                         <div>
-                          <Label className="text-sm font-medium mb-2 block">
-                            Total Usage (kWh)
-                          </Label>
-                          <div className="grid grid-cols-1 md:grid-cols-1 gap-4">
+                          <Label className="text-sm font-medium mb-2 block">Flat Rate & Total</Label>
+                          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                             <div>
-                              <Input
-                                placeholder="e.g., 850"
-                                value={bill.totalKwh}
-                                onChange={(e) => updateMonthlyBill(bill.id, 'totalKwh', e.target.value)}
-                                className = "text-gray-600"
-                              />
+                              <Label className="text-xs mb-1 block">Rate ($/kWh)</Label>
+                              <Input placeholder="0.15" value={bill.flatRate} onChange={(e) => updateMonthlyBill(bill.id, 'flatRate', e.target.value)} className="text-gray-600"/>
+                            </div>
+                            <div>
+                              <Label className="text-xs mb-1 block">Total ($)</Label>
+                              <Input placeholder="85" value={bill.flatTotal} onChange={(e) => updateMonthlyBill(bill.id, 'flatTotal', e.target.value)} className="text-gray-600"/>
                             </div>
                           </div>
                         </div>
                       )}
 
-                      {/* Common Fields */}
-                      <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-                        <div>
-                          <Label className="text-xs mb-2 block">Total Bill ($)</Label>
-                          <Input
-                            placeholder="e.g., 125"
-                            value={bill.totalCost}
-                            onChange={(e) => updateMonthlyBill(bill.id, 'totalCost', e.target.value)}
-                          />
-                        </div>
-                        <div>
-                          <Label className="text-xs mb-2 block">Home Size (sq ft)</Label>
-                          <Input
-                            placeholder="e.g., 1200"
-                            value={bill.homeSize}
-                            onChange={(e) => updateMonthlyBill(bill.id, 'homeSize', e.target.value)}
-                          />
-                        </div>
-                        <div>
-                          <Label className="text-xs mb-2 block">Residents</Label>
-                          <Input
-                            placeholder="e.g., 3"
-                            value={bill.residents}
-                            onChange={(e) => updateMonthlyBill(bill.id, 'residents', e.target.value)}
-                          />
-                        </div>
-                        <div>
-                          <Label className="text-xs mb-2 block">ZIP Code</Label>
-                          <Input
-                            placeholder="e.g., 10001"
-                            value={bill.zipCode}
-                            onChange={(e) => updateMonthlyBill(bill.id, 'zipCode', e.target.value)}
-                          />
-                        </div>
-                      </div>
+                
                     </div>
                   ))}
 
                   <div className="flex flex-col sm:flex-row gap-4">
-                    <Button
-                      variant="outline"
-                      onClick={addMonthlyBill}
-                      className="flex-1"
-                    >
+                    <Button variant="outline" onClick={addMonthlyBill} className="flex-1">
                       <Plus className="w-4 h-4 mr-2" />
                       Add Another Month
                     </Button>
-                    <Button 
-                      onClick={handleManualSubmit} 
-                      className="flex-1" 
-                      size="lg"
-                      disabled={!canSubmitManual}
-                    >
+                    <Button onClick={handleManualSubmit} className="flex-1" size="lg" disabled={!canSubmitManual}>
                       Analyze {monthlyBills.filter(bill => bill.month && bill.billType).length} Month{monthlyBills.filter(bill => bill.month && bill.billType).length !== 1 ? 's' : ''} of Data
                     </Button>
                   </div>
                 </CardContent>
               </Card>
             </TabsContent>
+
           </Tabs>
         </div>
       </div>
