@@ -3,6 +3,7 @@
 import * as React from "react";
 import * as RechartsPrimitive from "recharts"; 
 import { cn } from "./utils";
+import { TooltipProps} from "recharts"; 
 
 // Format: { THEME_NAME: CSS_SELECTOR }
 const THEMES = { light: "", dark: ".dark" } as const;
@@ -111,8 +112,9 @@ interface TooltipItem {
 }
 
 // Props for ChartTooltipContent
-interface ChartTooltipContentProps
-  extends Omit<RechartsPrimitive.TooltipProps<number, string>, "content"> {
+interface ChartTooltipContentProps {
+  active?: boolean;
+  payload?: TooltipItem[];
   className?: string;
   indicator?: "line" | "dot" | "dashed";
   hideLabel?: boolean;
@@ -120,6 +122,7 @@ interface ChartTooltipContentProps
   labelKey?: string;
   label?: string | React.ReactNode;
   labelClassName?: string;
+  labelFormatter?: (value: any, payload?: TooltipItem[]) => React.ReactNode;
   formatter?: (
     value: any,
     name?: string,
@@ -127,6 +130,8 @@ interface ChartTooltipContentProps
     index?: number,
     payload?: any
   ) => React.ReactNode;
+  color?: string;
+  nameKey?: string;
 }
 
 const ChartTooltip = RechartsPrimitive.Tooltip;
@@ -250,7 +255,7 @@ function ChartTooltipContent({
 
 // Props for ChartLegendContent
 interface ChartLegendContentProps extends Omit<React.ComponentProps<"div">, "payload"> {
-  payload?: RechartsPrimitive.LegendProps["payload"];
+  payload?: any[];
   verticalAlign?: "top" | "bottom" | "left" | "right";
   hideIcon?: boolean;
   nameKey?: string;
