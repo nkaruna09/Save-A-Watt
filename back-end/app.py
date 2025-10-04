@@ -27,13 +27,22 @@ def extract_text_from_pdf(file_path):
         tier2 = re.search(r"Tier 2.*?([\d,.]+)\s?kWh", text)
         bill_data["Tier1_kWh"] = float(tier1.group(1).replace(",", "")) if tier1 else 0
         bill_data["Tier2_kWh"] = float(tier2.group(1).replace(",", "")) if tier2 else 0
-    else:
+    elif "Total Usage" in text:
         bill_data["bill_type"] = "Flat/ULO"
         total = re.search(r"Total Usage.*?([\d,.]+)\s?kWh", text)
         bill_data["Total_kWh"] = float(total.group(1).replace(",", "")) if total else 0
-
+    else: 
+        # if none of the expected keywords are not found, return invalid 
+        return {"error": "Invalid PDF: Could not detect a valid electricity bill."}
+    
     cost = re.search(r"Total Amount Due[:\s\$]*([\d,.]+)", text)
     bill_data["Total_Cost"] = float(cost.group(1).replace(",", "")) if cost else None
 
+    # Additional validation: if key usage fields are all zero, treat as invalid
+    usage_values = [v for k, v in bill_data.items() if "_kWh" in k]
+    if all(val == 0 for val in usage_values):
+        return {"error": "Invalid PDF: No electricity usage data found."}
+    
     return bill_data
+
 
