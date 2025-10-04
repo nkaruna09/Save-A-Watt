@@ -24,7 +24,7 @@ export function Header({ onGetStarted }: HeaderProps) {
               <h1 className="text-xl font-bold bg-gradient-to-r from-blue-400 to-green-400 bg-clip-text text-transparent">
                 Save-A-Watt
               </h1>
-              <p className="text-sm text-gray-400">AI Energy Assistant</p>
+              <p className="text-sm text-gray-400">save-a-watt, save-a-lot!</p>
             </div>
           </div>
 

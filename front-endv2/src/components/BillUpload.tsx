@@ -191,25 +191,24 @@ export function BillUpload({ onAnalyze }: BillUploadProps) {
             Upload your energy bills or enter your usage details to get personalized energy-saving advice.
           </p>
         </div>
-
         <div className="max-w-4xl mx-auto">
           <Tabs defaultValue="demo" className="w-full">
-            <TabsList className="grid w-full grid-cols-3 glass-strong border border-white/10 p-2 rounded-2xl">
+            <TabsList className="flex justify-center items-center w-full grid-cols-3 glass-strong border border-white/10 p-1 rounded-2xl">
               <TabsTrigger 
                 value="demo" 
-                className="py-2 px-4 rounded-xl data-[state=active]:bg-gradient-to-r data-[state=active]:from-blue-500 data-[state=active]:to-blue-600 data-[state=active]:text-white transition-all duration-300"
+                className="py-2 px-4 text-lg rounded-xl data-[state=active]:bg-gradient-to-r data-[state=active]:from-blue-500 data-[state=active]:to-blue-600 data-[state=active]:text-white transition-all duration-300"
               >
                 Quick Demo
               </TabsTrigger>
               <TabsTrigger 
                 value="upload"
-                className="py-2 px-4 rounded-xl data-[state=active]:bg-gradient-to-r data-[state=active]:from-green-500 data-[state=active]:to-green-600 data-[state=active]:text-white transition-all duration-300"
+                className="py-2 px-4 text-lg rounded-xl data-[state=active]:bg-gradient-to-r data-[state=active]:from-green-500 data-[state=active]:to-green-600 data-[state=active]:text-white transition-all duration-300"
               >
                 Upload Bills
               </TabsTrigger>
               <TabsTrigger 
                 value="manual"
-                className="py-2 px-4 rounded-xl data-[state=active]:bg-gradient-to-r data-[state=active]:from-purple-500 data-[state=active]:to-purple-600 data-[state=active]:text-white transition-all duration-300"
+                className="py-2 px-4 text-lg rounded-xl data-[state=active]:bg-gradient-to-r data-[state=active]:from-purple-500 data-[state=active]:to-purple-600 data-[state=active]:text-white transition-all duration-300"
               >
                 Enter Manually
               </TabsTrigger>
@@ -268,7 +267,7 @@ export function BillUpload({ onAnalyze }: BillUploadProps) {
               </Card>
             </TabsContent>
 
-            <TabsContent value="upload" className="space-y-6">
+            <TabsContent value="upload" className="space-y-6 animate-slide-up">
               <Card>
                 <CardHeader>
                   <CardTitle className="flex items-center gap-2">
@@ -326,7 +325,7 @@ export function BillUpload({ onAnalyze }: BillUploadProps) {
               </Card>
             </TabsContent>
 
-            <TabsContent value="manual" className="space-y-6">
+            <TabsContent value="manual" className="space-y-6 animate-slide-up">
               <Card>
                 <CardHeader>
                   <CardTitle className="flex items-center gap-2">
@@ -359,7 +358,7 @@ export function BillUpload({ onAnalyze }: BillUploadProps) {
                       {/* Basic Info */}
                       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                         <div>
-                          <Label>Month</Label>
+                          <Label className="text-sm font-medium mb-2 block">Month</Label>
                           <Select value={bill.month} onValueChange={(value) => updateMonthlyBill(bill.id, 'month', value)}>
                             <SelectTrigger>
                               <SelectValue placeholder="Select month" />
@@ -372,7 +371,7 @@ export function BillUpload({ onAnalyze }: BillUploadProps) {
                           </Select>
                         </div>
                         <div>
-                          <Label>Year</Label>
+                          <Label className="text-sm font-medium mb-2 block">Year</Label>
                           <Select value={bill.year} onValueChange={(value) => updateMonthlyBill(bill.id, 'year', value)}>
                             <SelectTrigger>
                               <SelectValue placeholder="Select year" />
@@ -385,7 +384,7 @@ export function BillUpload({ onAnalyze }: BillUploadProps) {
                           </Select>
                         </div>
                         <div>
-                          <Label>Bill Type</Label>
+                          <Label className="text-sm font-medium mb-2 block">Bill Type</Label>
                           <Select value={bill.billType} onValueChange={(value) => updateMonthlyBill(bill.id, 'billType', value as any)}>
                             <SelectTrigger>
                               <SelectValue placeholder="Select bill type" />
@@ -402,32 +401,35 @@ export function BillUpload({ onAnalyze }: BillUploadProps) {
                       {/* Usage Data Based on Bill Type */}
                       {bill.billType === 'TOU' && (
                         <div>
-                          <Label className="text-sm font-medium text-gray-700 mb-2 block">
+                          <Label className="text-sm font-medium mb-2 block">
                             Time-of-Use Usage (kWh)
                           </Label>
                           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                             <div>
-                              <Label className="text-xs text-gray-600">Peak Usage</Label>
+                              <Label className="text-xs mb-2 block">Peak Usage</Label>
                               <Input
                                 placeholder="e.g., 250"
                                 value={bill.peakKwh}
                                 onChange={(e) => updateMonthlyBill(bill.id, 'peakKwh', e.target.value)}
+                                className = "text-gray-600"
                               />
                             </div>
                             <div>
-                              <Label className="text-xs text-gray-600">Off-Peak Usage</Label>
+                              <Label className="text-xs mb-2 block">Off-Peak Usage</Label>
                               <Input
                                 placeholder="e.g., 400"
                                 value={bill.offPeakKwh}
                                 onChange={(e) => updateMonthlyBill(bill.id, 'offPeakKwh', e.target.value)}
+                                className = "text-gray-600"
                               />
                             </div>
                             <div>
-                              <Label className="text-xs text-gray-600">Mid-Peak Usage</Label>
+                              <Label className="text-xs mb-2 block">Mid-Peak Usage</Label>
                               <Input
                                 placeholder="e.g., 200"
                                 value={bill.midPeakKwh}
                                 onChange={(e) => updateMonthlyBill(bill.id, 'midPeakKwh', e.target.value)}
+                                className = "text-gray-600"
                               />
                             </div>
                           </div>
@@ -436,24 +438,26 @@ export function BillUpload({ onAnalyze }: BillUploadProps) {
 
                       {bill.billType === 'Tiered' && (
                         <div>
-                          <Label className="text-sm font-medium text-gray-700 mb-2 block">
+                          <Label className="text-sm font-medium mb-2 block">
                             Tiered Usage (kWh)
                           </Label>
                           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                             <div>
-                              <Label className="text-xs text-gray-600">Tier 1 Usage</Label>
+                              <Label className="text-xs mb-2 block">Tier 1 Usage</Label>
                               <Input
                                 placeholder="e.g., 350"
                                 value={bill.tier1Kwh}
                                 onChange={(e) => updateMonthlyBill(bill.id, 'tier1Kwh', e.target.value)}
+                                className = "text-gray-600"
                               />
                             </div>
                             <div>
-                              <Label className="text-xs text-gray-600">Tier 2 Usage</Label>
+                              <Label className="text-xs mb-2 block">Tier 2 Usage</Label>
                               <Input
                                 placeholder="e.g., 500"
                                 value={bill.tier2Kwh}
                                 onChange={(e) => updateMonthlyBill(bill.id, 'tier2Kwh', e.target.value)}
+                                className = "text-gray-600"
                               />
                             </div>
                           </div>
@@ -462,7 +466,7 @@ export function BillUpload({ onAnalyze }: BillUploadProps) {
 
                       {bill.billType === 'Flat' && (
                         <div>
-                          <Label className="text-sm font-medium text-gray-700 mb-2 block">
+                          <Label className="text-sm font-medium mb-2 block">
                             Total Usage (kWh)
                           </Label>
                           <div className="grid grid-cols-1 md:grid-cols-1 gap-4">
@@ -471,6 +475,7 @@ export function BillUpload({ onAnalyze }: BillUploadProps) {
                                 placeholder="e.g., 850"
                                 value={bill.totalKwh}
                                 onChange={(e) => updateMonthlyBill(bill.id, 'totalKwh', e.target.value)}
+                                className = "text-gray-600"
                               />
                             </div>
                           </div>
@@ -480,7 +485,7 @@ export function BillUpload({ onAnalyze }: BillUploadProps) {
                       {/* Common Fields */}
                       <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
                         <div>
-                          <Label>Total Bill ($)</Label>
+                          <Label className="text-xs mb-2 block">Total Bill ($)</Label>
                           <Input
                             placeholder="e.g., 125"
                             value={bill.totalCost}
@@ -488,7 +493,7 @@ export function BillUpload({ onAnalyze }: BillUploadProps) {
                           />
                         </div>
                         <div>
-                          <Label>Home Size (sq ft)</Label>
+                          <Label className="text-xs mb-2 block">Home Size (sq ft)</Label>
                           <Input
                             placeholder="e.g., 1200"
                             value={bill.homeSize}
@@ -496,7 +501,7 @@ export function BillUpload({ onAnalyze }: BillUploadProps) {
                           />
                         </div>
                         <div>
-                          <Label>Residents</Label>
+                          <Label className="text-xs mb-2 block">Residents</Label>
                           <Input
                             placeholder="e.g., 3"
                             value={bill.residents}
@@ -504,7 +509,7 @@ export function BillUpload({ onAnalyze }: BillUploadProps) {
                           />
                         </div>
                         <div>
-                          <Label>ZIP Code</Label>
+                          <Label className="text-xs mb-2 block">ZIP Code</Label>
                           <Input
                             placeholder="e.g., 10001"
                             value={bill.zipCode}

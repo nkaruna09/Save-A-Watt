@@ -17,7 +17,7 @@ export function Footer() {
                 <h3 className="text-2xl font-bold bg-gradient-to-r from-blue-400 to-green-400 bg-clip-text text-transparent">
                   Save-A-Watt
                 </h3>
-                <p className="text-gray-400">AI Energy Assistant</p>
+                <p className="text-gray-400">save-a-watt, save-a-lot!</p>
               </div>
             </div>
             
@@ -62,7 +62,7 @@ export function Footer() {
               </li>
               <li className="flex items-start gap-3 text-gray-300">
                 <MapPin className="w-5 h-5 text-purple-400 mt-0.5" />
-                <span>Available in NY, CA, TX<br />More states coming soon</span>
+                <span>Available in Ontario, Canada<br />More provinces coming soon</span>
               </li>
             </ul>
           </div>
