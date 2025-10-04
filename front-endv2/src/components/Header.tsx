@@ -1,4 +1,3 @@
-// Header.tsx
 import { useState } from "react";
 import { Button } from "./ui/button";
 import { Zap, Menu } from "lucide-react";
@@ -11,38 +10,62 @@ export function Header({ onGetStarted }: HeaderProps) {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   return (
-    <header className="bg-white border-b border-gray-200 sticky top-0 z-50">
+    <header className="glass-strong sticky top-0 z-50 border-b border-white/10">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between items-center h-16">
-          <div className="flex items-center gap-2">
-            <div className="flex items-center justify-center w-10 h-10 bg-blue-600 rounded-lg">
-              <Zap className="w-6 h-6 text-white" />
+        <div className="flex justify-between items-center h-18">
+          <div className="flex items-center gap-3">
+            <div className="relative">
+              <div className="flex items-center justify-center w-12 h-12 bg-gradient-to-br from-blue-500 to-blue-600 rounded-xl animate-pulse-glow">
+                <Zap className="w-7 h-7 text-white" />
+              </div>
+              <div className="absolute inset-0 bg-gradient-to-br from-blue-400 to-blue-500 rounded-xl opacity-20 animate-ping"></div>
             </div>
             <div>
-              <h1 className="font-bold text-gray-900">EnergyAssist AI</h1>
-              <p className="text-xs text-gray-500">Smart Energy Savings</p>
+              <h1 className="text-xl font-bold bg-gradient-to-r from-blue-400 to-green-400 bg-clip-text text-transparent">
+                Save-A-Watt
+              </h1>
+              <p className="text-sm text-gray-400">save-a-watt, save-a-lot!</p>
             </div>
           </div>
 
+          {/* Desktop Navigation */}
           <nav className="hidden md:flex items-center gap-8">
-            <a href="#how-it-works" className="text-gray-600 hover:text-gray-900">How It Works</a>
-            <a href="#demo" className="text-gray-600 hover:text-gray-900">Try Demo</a>
-            <a href="#about" className="text-gray-600 hover:text-gray-900">About</a>
-            <Button onClick={onGetStarted} size="sm">Get Started</Button>
+            <a href="#demo" className="text-gray-300 hover:text-white transition-colors duration-300 hover:scale-105 transform">
+              Try Demo
+            </a>
+            <a href="#how-it-works" className="text-gray-300 hover:text-white transition-colors duration-300 hover:scale-105 transform">
+              How It Works
+            </a>
+            <a href="#about" className="text-gray-300 hover:text-white transition-colors duration-300 hover:scale-105 transform">
+              About
+            </a>
+            <Button 
+              onClick={onGetStarted} 
+              className="bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white px-6 py-2 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105"
+            >
+              Get Started
+            </Button>
           </nav>
 
-          <button className="md:hidden" onClick={() => setIsMenuOpen(!isMenuOpen)}>
-            <Menu className="w-6 h-6 text-gray-600" />
+          {/* Mobile Menu Button */}
+          <button 
+            className="md:hidden p-2 rounded-lg glass hover:glass-strong transition-all duration-300"
+            onClick={() => setIsMenuOpen(!isMenuOpen)}
+          >
+            <Menu className="w-6 h-6 text-gray-300" />
           </button>
         </div>
 
+        {/* Mobile Navigation */}
         {isMenuOpen && (
-          <div className="md:hidden py-4 border-t border-gray-200">
+          <div className="md:hidden py-4 border-t border-white/10 glass-strong animate-slide-up">
             <nav className="flex flex-col gap-4">
-              <a href="#how-it-works" className="text-gray-600">How It Works</a>
-              <a href="#demo" className="text-gray-600">Try Demo</a>
-              <a href="#about" className="text-gray-600">About</a>
-              <Button onClick={onGetStarted} size="sm" className="w-fit">Get Started</Button>
+              <a href="#demo" className="text-gray-300 hover:text-white transition-colors">Try Demo</a>
+              <a href="#how-it-works" className="text-gray-300 hover:text-white transition-colors">How It Works</a>
+              <a href="#about" className="text-gray-300 hover:text-white transition-colors">About</a>
+              <Button onClick={onGetStarted} className="w-fit bg-gradient-to-r from-blue-500 to-blue-600 text-white">
+                Get Started
+              </Button>
             </nav>
           </div>
         )}

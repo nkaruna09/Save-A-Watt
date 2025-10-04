@@ -1,3 +1,5 @@
+// components/AnalysisResults.tsx
+
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "./ui/card";
 import { Badge } from "./ui/badge";
 import { Button } from "./ui/button";
@@ -143,7 +145,7 @@ export function AnalysisResults({ data }: AnalysisResultsProps) {
         {/* Efficiency Progress */}
         <Card className="mb-12">
           <CardHeader>
-            <CardTitle className="flex items-center gap-2">
+            <CardTitle className="flex items-center text-green-600 gap-2">
               <TrendingDown className="w-5 h-5 text-green-600" />
               Your Energy Efficiency
             </CardTitle>
@@ -278,9 +280,6 @@ export function AnalysisResults({ data }: AnalysisResultsProps) {
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Button size="lg" className="bg-blue-600 hover:bg-blue-700">
               Download Full Report
-            </Button>
-            <Button size="lg" variant="outline">
-              Schedule Follow-up
             </Button>
           </div>
         </div>
