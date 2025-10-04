@@ -1,7 +1,17 @@
+import os
 import requests
+from dotenv import load_dotenv
+
+load_dotenv()
+
+GEMINI_API_KEY = os.getenv("GEMINI_API_KEY")
+COHERE_MODEL = os.getenv("COHERE_MODEL", "command-a-03-2025")
 
 # Function to call Gemini API
 def call_gemini_api(bill_data): 
+    if not GEMINI_API_KEY:
+        return "Error: GEMINI_API_KEY is not set in your .env"
+
     prompt = f"""
     The household bill details are as follows:
     {bill_data}  # Replace this with the parsed dictionary from the PDF (TOU/Tiered/Flat)
@@ -29,12 +39,34 @@ def call_gemini_api(bill_data):
     ---
     """
 
-    api_url = ""
-    headers = {"Authorization": "Bearer YOUR_GEMINI_API_KEY"}
-    payload = {"prompt": prompt, "max_tokens": 1000}
+    api_url = "https://api.cohere.com/v1/chat"
+    headers = {
+        "Authorization": f"Bearer {GEMINI_API_KEY}",
+        "Content-Type": "application/json",
+    }
+    payload = {
+        "model": COHERE_MODEL,
+        "message": prompt, 
+        "max_tokens": 600,
+        "temperature": 0.3,
+    }
 
-    response = requests.post(api_url, headers=headers, json=payload)
+    response = requests.post(api_url, headers=headers, json=payload, timeout=30)
     if response.status_code == 200:
-        return response.json()["text"]  # assuming Gemini returns 'text'
+        # /v1/generate returns: { generations: [ { text: "..."} ], ... }
+        data = response.json()
+
+        # Cohere chat can return either top-level "text" or a "message" object.
+        if isinstance(data, dict):
+            if "text" in data and isinstance(data["text"], str):
+                return data["text"].strip()
+
+            msg = data.get("message")
+            if isinstance(msg, dict):
+                # message.content is a list of content parts: [{"type":"text","text":"..."}]
+                parts = msg.get("content") or []
+                texts = [p.get("text", "") for p in parts if p.get("type") == "text"]
+                if texts:
+                    return "\n".join(t.strip() for t in texts if t.strip())
     else:
         return f"Error: {response.status_code} - {response.text}"
