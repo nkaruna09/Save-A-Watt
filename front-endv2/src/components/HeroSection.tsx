@@ -94,13 +94,7 @@ export function HeroSection({ onGetStarted }: HeroSectionProps) {
                   <ArrowRight className="w-6 h-6 group-hover:translate-x-2 transition-transform duration-300" />
                 </span>
               </Button>
-              
-              <div className="flex items-center gap-3 px-5 py-2 rounded-full glass border border-green-400/30">
-                <DollarSign className="w-5 h-5 text-green-400" />
-                <span className="text-green-400 font-semibold">
-                  Average savings: $30-80/month
-                </span>
-              </div>
+          
             </div>
 
             {/* Stats */}
@@ -123,7 +117,7 @@ export function HeroSection({ onGetStarted }: HeroSectionProps) {
               </div>
               <div className="text-center group hover-lift">
                 <div className="text-3xl font-bold text-purple-400 mb-1 animate-counter">
-                  <AnimatedCounter end={5} />min
+                  <AnimatedCounter end={5} /> min
                 </div>
                 <div className="text-sm text-gray-400 group-hover:text-gray-300 transition-colors">
                   Quick analysis

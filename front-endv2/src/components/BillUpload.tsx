@@ -182,13 +182,13 @@ export function BillUpload({ onAnalyze }: BillUploadProps) {
       
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <div className="text-center mb-16 animate-bounce-in">
-          <h2 className="text-5xl font-bold mb-6">
+          {/* <h2 className="text-5xl font-bold mb-6">
             <span className="bg-gradient-to-r from-white via-blue-100 to-white bg-clip-text text-transparent">
               Try Our Demo
             </span>
-          </h2>
-          <p className="text-xl text-gray-300 max-w-3xl mx-auto">
-            Upload your energy bills or enter your usage details to get personalized energy-saving advice
+          </h2> */}
+          <p className="text-xl text-gray-300 max-w-4xl mx-auto">
+            Upload your energy bills or enter your usage details to get personalized energy-saving advice.
           </p>
         </div>
 
@@ -197,19 +197,19 @@ export function BillUpload({ onAnalyze }: BillUploadProps) {
             <TabsList className="grid w-full grid-cols-3 glass-strong border border-white/10 p-2 rounded-2xl">
               <TabsTrigger 
                 value="demo" 
-                className="rounded-xl data-[state=active]:bg-gradient-to-r data-[state=active]:from-blue-500 data-[state=active]:to-blue-600 data-[state=active]:text-white transition-all duration-300"
+                className="py-2 px-4 rounded-xl data-[state=active]:bg-gradient-to-r data-[state=active]:from-blue-500 data-[state=active]:to-blue-600 data-[state=active]:text-white transition-all duration-300"
               >
                 Quick Demo
               </TabsTrigger>
               <TabsTrigger 
                 value="upload"
-                className="rounded-xl data-[state=active]:bg-gradient-to-r data-[state=active]:from-green-500 data-[state=active]:to-green-600 data-[state=active]:text-white transition-all duration-300"
+                className="py-2 px-4 rounded-xl data-[state=active]:bg-gradient-to-r data-[state=active]:from-green-500 data-[state=active]:to-green-600 data-[state=active]:text-white transition-all duration-300"
               >
                 Upload Bills
               </TabsTrigger>
               <TabsTrigger 
                 value="manual"
-                className="rounded-xl data-[state=active]:bg-gradient-to-r data-[state=active]:from-purple-500 data-[state=active]:to-purple-600 data-[state=active]:text-white transition-all duration-300"
+                className="py-2 px-4 rounded-xl data-[state=active]:bg-gradient-to-r data-[state=active]:from-purple-500 data-[state=active]:to-purple-600 data-[state=active]:text-white transition-all duration-300"
               >
                 Enter Manually
               </TabsTrigger>
