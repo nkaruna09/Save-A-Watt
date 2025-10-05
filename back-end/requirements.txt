@@ -4,4 +4,4 @@ pdfplumber
 pdfminer.six
 Pillow
 requests
-python-dotenv
+ 
