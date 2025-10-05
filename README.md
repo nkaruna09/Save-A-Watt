@@ -31,7 +31,8 @@ Port: 3000
   cd back-end
   py -m venv .venv
   .venv\Scripts\activate
+  # source .venv/bin/activate (mac/linux)
   pip install -r requirements.txt
   python3 app.py
 ```
-Port:5000
+Port: 5000
