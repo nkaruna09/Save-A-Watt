@@ -131,9 +131,11 @@ export function HeroSection({ onGetStarted }: HeroSectionProps) {
             <div className="relative z-10">
               <div className="relative overflow-hidden rounded-3xl shadow-2xl hover-lift">
                 <ImageWithFallback
-                  src="https://images.unsplash.com/photo-1704536345283-18e559576ec2?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxlbmVyZ3klMjBlZmZpY2llbmN5JTIwaG9tZSUyMGxpZ2h0YnVsYnxlbnwxfHx8fDE3NTk1NDk4ODF8MA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral"
+                  src="https://images.unsplash.com/photo-1588422273146-c799447ccb81?q=80&w=387&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+              
+                
                   alt="Energy efficient home with LED lightbulb"
-                  className="w-full h-[350px] lg:h-[400px] object-cover"
+                  className="w-[400px] lg:h-[450px] object-cover"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-blue-900/50 to-transparent"></div>
               </div>
