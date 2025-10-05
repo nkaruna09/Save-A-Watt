@@ -10,7 +10,7 @@ export function Header({ onGetStarted }: HeaderProps) {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   return (
-    <header className="glass-strong sticky top-0 z-50 border-b border-white/10">
+    <header className="glass-strong sticky top-0 z-50 border-b border-white/10" style={{ background: "#0f172a" }}>
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-24">
           <div className="flex items-center gap-3">

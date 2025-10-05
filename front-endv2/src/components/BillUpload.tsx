@@ -256,7 +256,7 @@ export function BillUpload({ onAnalyze }: BillUploadProps) {
           </p>
         </div>
         {/* Common Fields */}
-        <div className="space-y-6">
+        <div className="max-w-4xl mx-auto space-y-6">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             <div>
               <Label className="text-xs mb-1 block">Home Size (sq ft)</Label>
