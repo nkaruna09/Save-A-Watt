@@ -4,13 +4,19 @@ import re # helps search for patterns
 
 # Function to extract text from PDF
 def extract_text_from_pdf(file_path):
-    text = "" 
-    with pdfplumber.open(file_path) as pdf:
-        for page in pdf.pages:
-            text += page.extract_text() + "\n"
+    text = ""
+    try:
+        with pdfplumber.open(file_path) as pdf:
+            for page in pdf.pages:
+                text += page.extract_text() + "\n"
+    except Exception:
+        print("Error reading PDF file.")
+   
+    return text
 
+def parse_bill_data(text):
     bill_data = {} 
-
+    print("Parsing text:", text[:1000])  # Debug: print first 1000 characters of text
     if "Time-of-Use" in text or "Peak" in text or "Time of use" in text: 
         bill_data["bill_type"] = "TOU"
         peak = peak = re.search(r"Peak.*?([\d,.]+)\s?kWh", text)

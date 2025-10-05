@@ -6,6 +6,7 @@ import { useState, useEffect } from "react";
 import { Button } from "./ui/button";
 import { ArrowRight, Zap, DollarSign } from "lucide-react";
 import { ImageWithFallback } from "./figma/ImageWithFallback";
+import heroImg from "../assets/hero.png";
 
 // Animated Counter Component
 function AnimatedCounter({ end, duration = 2000, suffix = "" }: { end: number; duration?: number; suffix?: string }) {
@@ -66,7 +67,7 @@ export function HeroSection({ onGetStarted }: HeroSectionProps) {
                 </div>
               </div>
               
-              <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold leading-tight">
+              <h1 className="text-4xl sm:text-5xl lg:text-5xl font-bold leading-tight">
                 <span className="bg-gradient-to-r from-white via-blue-100 to-white bg-clip-text text-transparent animate-gradient">
                   Cut Your Energy Bills
                 </span>
@@ -131,7 +132,7 @@ export function HeroSection({ onGetStarted }: HeroSectionProps) {
             <div className="relative z-10">
               <div className="relative overflow-hidden rounded-3xl shadow-2xl hover-lift">
                 <ImageWithFallback
-                  src="https://plus.unsplash.com/premium_photo-1726453681439-8b644663c9b5?q=80&w=871&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+                  src={heroImg}
               
             
                   alt="Energy efficient home with LED lightbulb"

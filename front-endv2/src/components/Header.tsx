@@ -1,6 +1,8 @@
 import { useState } from "react";
 import { Button } from "./ui/button";
 import { Zap, Menu } from "lucide-react";
+import logo  from "../assets/wattLogoT.png";
+import { ImageWithFallback } from "./figma/ImageWithFallback";
 
 interface HeaderProps {
   onGetStarted: () => void;
@@ -15,8 +17,9 @@ export function Header({ onGetStarted }: HeaderProps) {
         <div className="flex justify-between items-center h-24">
           <div className="flex items-center gap-3">
             <div className="relative">
-              <div className="flex items-center justify-center w-12 h-12 bg-gradient-to-br from-blue-500 to-blue-600 rounded-xl animate-pulse-glow">
-                <Zap className="w-7 h-7 text-white" />
+              <div className="flex items-center justify-center bg-gradient-to-br from-white/10 to-black rounded-xl animate-pulse-glow">
+                <ImageWithFallback
+                src={logo} className="w-16 h-16 text-white" />
               </div>
               <div className="absolute inset-0 bg-gradient-to-br from-blue-400 to-blue-500 rounded-xl opacity-20 animate-ping"></div>
             </div>
