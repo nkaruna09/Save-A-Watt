@@ -1,5 +1,5 @@
-// components/AnalysisResults.tsx
-
+import React, { useEffect, useState } from "react"; 
+import { useLocation } from "react-router-dom";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "./ui/card";
 import { Badge } from "./ui/badge";
 import { Button } from "./ui/button";
@@ -9,82 +9,97 @@ import {
   Lightbulb, 
   TrendingDown, 
   Gift, 
-  ExternalLink, 
   CheckCircle,
   Zap,
   Home,
-  Users
 } from "lucide-react";
 
-interface AnalysisResultsProps {
-  data: any;
+import { demoAdvice } from "../data/demoAdvice";
+
+type AnalysisResultsProps = {
+  data: AdviceResults | null;
+};
+
+export interface AdviceResults {
+  currentUsage: number;
+  currentBill: number;
+  estimatedSavings: number;
+  percentageSaving: number; 
+  efficiencyScore: number; 
+  tips: {
+    title: string; 
+    savings: string;
+    effort: string; 
+    description: string; 
+    cost: string; 
+    payback: string;
+  }[];
+  subsidies: {
+    name: string; 
+    amount: string; 
+    description: string; 
+    eligibility: string;
+    howToApply: string; 
+    status: string; 
+  }[];
 }
 
+
 export function AnalysisResults({ data }: AnalysisResultsProps) {
-  // Mock analysis results based on input data
-  const results = {
-    currentUsage: parseInt(data.data.monthlyUsage || "850"),
-    currentBill: parseFloat(data.data.monthlyBill || "125"),
-    estimatedSavings: 35,
-    percentageSaving: 28,
-    efficiencyScore: 65,
-    tips: [
-      {
-        title: "Switch to LED Light Bulbs",
-        savings: "$15/month",
-        effort: "Easy",
-        description: "Replace 10 incandescent bulbs with LED bulbs. They use 75% less energy and last 25 times longer.",
-        cost: "$30 upfront",
-        payback: "2 months"
-      },
-      {
-        title: "Adjust Thermostat Settings",
-        savings: "$12/month", 
-        effort: "Easy",
-        description: "Set your thermostat 7-10°F lower when you're away. Use a programmable thermostat if possible.",
-        cost: "Free",
-        payback: "Immediate"
-      },
-      {
-        title: "Seal Air Leaks",
-        savings: "$8/month",
-        effort: "Medium", 
-        description: "Use weatherstripping around doors and windows. Caulk gaps and cracks to prevent air leaks.",
-        cost: "$15",
-        payback: "2 months"
+  const location = useLocation();
+  const navigationData = (location.state?.data as AdviceResults) || data;
+
+  const [results, setResults] = useState<AdviceResults | null>(null);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    async function fetchAdvice() {
+      try {
+        const response = await fetch("http://localhost:5000/advice", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(navigationData)
+        });
+        if (!response.ok) {
+          throw new Error(`Advice API error: ${response.status}`);
+        }
+        const { advice } = await response.json();
+        setResults({
+          currentUsage: advice.tips.currentUsage ?? 0,
+          currentBill: advice.tips.currentBill ?? 0,
+          estimatedSavings: advice.tips.estimatedSavings ?? 0,
+          percentageSaving: advice.tips.percentageSaving ?? 0,
+          efficiencyScore: advice.tips.efficiencyScore ?? 0,
+          tips: Array.isArray(advice.tips.tips) ? advice.tips.tips : [],
+          subsidies: Array.isArray(advice.subsidies) ? advice.subsidies : []
+        });
+        setError(null);
+        
+      } catch (err) {
+        console.error("Error fetching advice:", err);
+        setError("Failed to fetch advice. Showing demo data.");
+        setResults(demoAdvice);
       }
-    ],
-    subsidies: [
-      {
-        name: "New York State EmPower+ Program",
-        amount: "Up to $8,000",
-        description: "Free energy efficiency upgrades for income-qualified households including insulation, air sealing, and heating system improvements.",
-        eligibility: "Household income at or below 80% of Area Median Income",
-        howToApply: "Call 1-800-263-0960 or apply online at nyserda.ny.gov/empower",
-        status: "Available"
-      },
-      {
-        name: "Low Income Home Energy Assistance Program (LIHEAP)",
-        amount: "Up to $400/year",
-        description: "Federal program that helps pay heating and cooling bills for low-income households.",
-        eligibility: "Household income at or below 60% of state median income",
-        howToApply: "Contact your local Department of Social Services office",
-        status: "Available"
-      },
-      {
-        name: "ConEd Energy Affordability Program",
-        amount: "10-20% bill discount",
-        description: "Monthly discount on electric bills for qualifying low-income customers.",
-        eligibility: "Household income at or below 200% of Federal Poverty Level",
-        howToApply: "Call ConEd at 1-800-752-6633 or apply online",
-        status: "Available"
-      }
-    ]
-  };
+    }
+    fetchAdvice();
+  }, [navigationData]);
+
+  if (!results) {
+    return (
+      <div className="py-16 text-center text-lg text-gray-500">
+        Loading your personalized advice...
+      </div>
+    );
+  }
 
   return (
     <div className="py-16 bg-white">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+        {error && (
+          <div className="mb-8 text-red-600 text-center font-semibold">
+            {error}
+          </div>
+        )}
         <div className="text-center mb-12">
           <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-4">
             Your Personalized Energy Analysis
@@ -180,7 +195,7 @@ export function AnalysisResults({ data }: AnalysisResultsProps) {
             Personalized Energy-Saving Tips
           </h3>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {results.tips.map((tip, index) => (
+            {(results.tips ?? []).map((tip, index) => (
               <Card key={index} className="border-l-4 border-l-blue-500">
                 <CardHeader>
                   <div className="flex justify-between items-start">
@@ -222,7 +237,7 @@ export function AnalysisResults({ data }: AnalysisResultsProps) {
             Available Subsidies & Programs
           </h3>
           <div className="space-y-6">
-            {results.subsidies.map((subsidy, index) => (
+            {(results.subsidies ?? []).map((subsidy, index) => (
               <Card key={index} className="border-l-4 border-l-green-500">
                 <CardHeader>
                   <div className="flex justify-between items-start">
