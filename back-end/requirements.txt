@@ -4,4 +4,8 @@ pdfplumber
 pdfminer.six
 Pillow
 requests
+pandas
+numpy
+scikit-learn
+catboost
  

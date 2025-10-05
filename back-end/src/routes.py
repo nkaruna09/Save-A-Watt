@@ -55,6 +55,7 @@ def advice():
         return jsonify({"error": "Provide bill_data JSON"}), 400
 
     text = call_gemini_api(bill_data)
+    
     return jsonify({"advice": text})
 
 
