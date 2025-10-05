@@ -17,7 +17,7 @@ export function Footer() {
                 <h3 className="text-2xl font-bold bg-gradient-to-r from-blue-400 to-green-400 bg-clip-text text-transparent">
                   Save-A-Watt
                 </h3>
-                <p className="text-gray-400">save-a-watt, save-a-lot!</p>
+                <p className="text-gray-400">Save-A-Watt, Save-A-Lot!</p>
               </div>
             </div>
             

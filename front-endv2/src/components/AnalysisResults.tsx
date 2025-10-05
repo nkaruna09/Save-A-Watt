@@ -96,7 +96,7 @@ export function AnalysisResults({ data }: AnalysisResultsProps) {
 
         {/* Summary Cards */}
         <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-12">
-          <Card>
+          <Card className="border border-gray-300 rounded-xl shadow-sm">
             <CardContent className="p-6">
               <div className="flex items-center justify-between">
                 <div>
@@ -107,7 +107,7 @@ export function AnalysisResults({ data }: AnalysisResultsProps) {
               </div>
             </CardContent>
           </Card>
-          <Card>
+          <Card className="border border-gray-300 rounded-xl shadow-sm">
             <CardContent className="p-6">
               <div className="flex items-center justify-between">
                 <div>
@@ -118,7 +118,7 @@ export function AnalysisResults({ data }: AnalysisResultsProps) {
               </div>
             </CardContent>
           </Card>
-          <Card>
+          <Card className="border border-gray-300 rounded-xl shadow-sm">
             <CardContent className="p-6">
               <div className="flex items-center justify-between">
                 <div>
@@ -129,7 +129,7 @@ export function AnalysisResults({ data }: AnalysisResultsProps) {
               </div>
             </CardContent>
           </Card>
-          <Card>
+          <Card className="border border-gray-300 rounded-xl shadow-sm">
             <CardContent className="p-6">
               <div className="flex items-center justify-between">
                 <div>
@@ -143,25 +143,18 @@ export function AnalysisResults({ data }: AnalysisResultsProps) {
         </div>
 
         {/* Efficiency Progress */}
-        <Card className="mb-12">
+        <Card className="mb-12 border border-gray-300 rounded-xl shadow-sm">
           <CardHeader>
-            <CardTitle className="flex items-center text-green-600 gap-2">
-              <TrendingDown className="w-5 h-5 text-green-600" />
+            <CardTitle className="flex items-center text-green-600 gap-2 font-bold">
+              <TrendingDown className="w-5 h-5 text-green-600"/>
               Your Energy Efficiency
             </CardTitle>
-            <CardDescription>
+            <CardDescription className="text-black">
               Your home scores {results.efficiencyScore}/100. Here's how you compare to similar homes:
             </CardDescription>
           </CardHeader>
           <CardContent>
             <div className="space-y-4">
-              <div>
-                <div className="flex justify-between text-sm mb-1">
-                  <span>Your Score</span>
-                  <span>{results.efficiencyScore}/100</span>
-                </div>
-                <Progress value={results.efficiencyScore} className="h-3" />
-              </div>
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm">
                 <div className="text-center p-3 bg-red-50 rounded-lg">
                   <div className="font-semibold text-red-700">Below Average</div>
@@ -191,7 +184,7 @@ export function AnalysisResults({ data }: AnalysisResultsProps) {
               <Card key={index} className="border-l-4 border-l-blue-500">
                 <CardHeader>
                   <div className="flex justify-between items-start">
-                    <CardTitle className="text-lg">{tip.title}</CardTitle>
+                    <CardTitle className="text-lg text-black">{tip.title}</CardTitle>
                     <Badge variant={tip.effort === "Easy" ? "default" : "secondary"}>
                       {tip.effort}
                     </Badge>
@@ -204,11 +197,11 @@ export function AnalysisResults({ data }: AnalysisResultsProps) {
                   <p className="text-gray-700">{tip.description}</p>
                   <div className="grid grid-cols-2 gap-3 text-sm">
                     <div>
-                      <span className="font-semibold">Upfront cost:</span>
+                      <span className="font-semibold text-black">Upfront cost:</span>
                       <div className="text-gray-600">{tip.cost}</div>
                     </div>
                     <div>
-                      <span className="font-semibold">Payback:</span>
+                      <span className="font-semibold text-black">Payback:</span>
                       <div className="text-gray-600">{tip.payback}</div>
                     </div>
                   </div>
@@ -258,10 +251,6 @@ export function AnalysisResults({ data }: AnalysisResultsProps) {
                     </div>
                   </div>
                   
-                  <Button variant="outline" className="w-full md:w-auto">
-                    <ExternalLink className="w-4 h-4 mr-2" />
-                    Learn More & Apply
-                  </Button>
                 </CardContent>
               </Card>
             ))}
@@ -278,7 +267,7 @@ export function AnalysisResults({ data }: AnalysisResultsProps) {
             Start with the easy wins and work your way up to bigger savings.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Button size="lg" className="bg-blue-600 hover:bg-blue-700">
+            <Button size="lg" className="bg-blue-600 hover:bg-blue-700" onClick={() => window.print()}> 
               Download Full Report
             </Button>
           </div>

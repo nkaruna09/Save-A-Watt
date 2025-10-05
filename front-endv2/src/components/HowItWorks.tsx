@@ -36,7 +36,7 @@ export function HowItWorks() {
     {
       icon: Upload,
       title: "Upload Your Bill",
-      description: "Take a photo of your energy bill or enter your usage manually. We keep your data secure and private.",
+      description: "Upload energy bill or enter your usage manually. We keep your data secure and private.",
       color: "from-blue-500 to-blue-600",
       bgColor: "bg-blue-500/10",
       delay: "0s"

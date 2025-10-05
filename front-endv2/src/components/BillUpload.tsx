@@ -244,22 +244,25 @@ export function BillUpload({ onAnalyze }: BillUploadProps) {
                 placeholder="1200"
                 value={commonInfo.homeSize}
                 onChange={(e) => updateCommonInfo('homeSize', e.target.value)}
+                className = "text-black"
               />
             </div>
             <div>
               <Label className="text-xs mb-1 block">Type of Home</Label>
               <Input
-                placeholder="3"
+                placeholder="House, Apartment, Condo..."
                 value={commonInfo.kindOfHome}
                 onChange={(e) => updateCommonInfo('kindOfHome', e.target.value)}
+                className = "text-black"
               />
             </div>
             <div>
               <Label className="text-xs mb-1 block">ZIP Code</Label>
               <Input
-                placeholder="10001"
+                placeholder="MD2DK6"
                 value={commonInfo.zipCode}
                 onChange={(e) => updateCommonInfo('zipCode', e.target.value)}
+                className = "text-black"
               />
             </div>
           </div>
@@ -268,9 +271,10 @@ export function BillUpload({ onAnalyze }: BillUploadProps) {
             <div>
               <Label className="text-xs mb-1 block"># of Adults</Label>
               <Input
-                placeholder="1200"
+                placeholder="2"
                 value={commonInfo.adults}
                 onChange={(e) => updateCommonInfo('adults', e.target.value)}
+                className = "text-black"
               />
             </div>
             <div>
@@ -279,52 +283,49 @@ export function BillUpload({ onAnalyze }: BillUploadProps) {
                 placeholder="3"
                 value={commonInfo.children}
                 onChange={(e) => updateCommonInfo('children', e.target.value)}
+                className = "text-black"
               />
             </div>
             <div>
               <Label className="text-xs mb-1 block">Annual Income</Label>
               <Input
-                placeholder="10001"
+                placeholder="100000"
                 value={commonInfo.annualIncome}
                 onChange={(e) => updateCommonInfo('annualIncome', e.target.value)}
+                className = "text-black"
               />
             </div>
           </div>
-
-          {/* Add space after final row */}
           <div className="h-6"></div>
         </div>
-        <div className="text-center mb-16 animate-bounce-in">
-          <p className="text-xl text-gray-300 max-w-4xl mx-auto">
-            Upload your energy bills or enter your usage details to get personalized energy-saving advice.
-          </p>
-        </div>
+
         <div className="max-w-4xl mx-auto">
           <Tabs defaultValue="demo" className="w-full">
-            <TabsList className="flex justify-center items-center w-full grid-cols-3 glass-strong border border-white/10 p-1 rounded-2xl">
+            <TabsList className="flex justify-between items-center w-full bg-white/5 backdrop-blur-md border border-white/10 p-1 rounded-2xl gap-2 py-8">
               <TabsTrigger 
                 value="demo" 
-                className="py-2 px-4 text-lg rounded-xl data-[state=active]:bg-gradient-to-r data-[state=active]:from-blue-500 data-[state=active]:to-blue-600 data-[state=active]:text-white transition-all duration-300"
+                className="flex-1 py-6 text-lg text-center rounded-xl data-[state=active]:bg-gradient-to-r data-[state=active]:from-blue-500 data-[state=active]:to-blue-600 data-[state=active]:text-white transition-all duration-300"
               >
                 Quick Demo
               </TabsTrigger>
               <TabsTrigger 
                 value="upload"
-                className="py-2 px-4 text-lg rounded-xl data-[state=active]:bg-gradient-to-r data-[state=active]:from-green-500 data-[state=active]:to-green-600 data-[state=active]:text-white transition-all duration-300"
+                className="flex-1 py-6 text-lg text-center rounded-xl data-[state=active]:bg-gradient-to-r data-[state=active]:from-green-500 data-[state=active]:to-green-600 data-[state=active]:text-white transition-all duration-300"
               >
                 Upload Bills
               </TabsTrigger>
               <TabsTrigger 
                 value="manual"
-                className="py-2 px-4 text-lg rounded-xl data-[state=active]:bg-gradient-to-r data-[state=active]:from-purple-500 data-[state=active]:to-purple-600 data-[state=active]:text-white transition-all duration-300"
+                className="flex-1 py-6 text-lg text-center rounded-xl data-[state=active]:bg-gradient-to-r data-[state=active]:from-purple-500 data-[state=active]:to-purple-600 data-[state=active]:text-white transition-all duration-300"
               >
                 Enter Manually
               </TabsTrigger>
             </TabsList>
             
+            <div className="h-6"></div>
             {/* Demo Content */}
             <TabsContent value="demo" className="space-y-6 animate-slide-up">
-              <Card className="glass-strong border-white/10 hover-lift">
+              <Card className="glass-strong border-white/10">
                 <CardHeader>
                   <CardTitle className="flex items-center gap-3 text-white">
                     <div className="flex items-center justify-center w-10 h-10 bg-gradient-to-br from-blue-500 to-blue-600 rounded-xl">
@@ -355,7 +356,7 @@ export function BillUpload({ onAnalyze }: BillUploadProps) {
                     className="w-full bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white py-4 text-lg font-semibold rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105" 
                     size="lg"
                   >
-                    🚀 Run Sample Analysis
+                    Run Sample Analysis
                   </Button>
                 </CardContent>
               </Card>
