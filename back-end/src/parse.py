@@ -10,7 +10,7 @@ def extract_text_from_pdf(file_path):
 
     bill_data = {} 
 
-    if "Time-of-Use" in text or "Peak" in text: 
+    if "Time-of-Use" in text or "Peak" in text or "Time of use" in text: 
         bill_data["bill_type"] = "TOU"
         peak = peak = re.search(r"Peak.*?([\d,.]+)\s?kWh", text)
         off_peak = re.search(r"Off[- ]Peak.*?([\d,.]+)\s?kWh", text)
