@@ -120,7 +120,7 @@ export function BillUpload({ onAnalyze }: BillUploadProps) {
 
   const handleManualSubmit = async () => {
     const validBills = monthlyBills.filter(bill => {
-      const hasBasicInfo = bill.month && bill.year && bill.billType && bill.zipCode;
+      const hasBasicInfo = bill.month && bill.year && bill.billType;
       const hasUsageData = bill.billType === 'TOU' ?
         (bill.peakRate || bill.peakTotal || bill.offPeakRate || bill.offPeakTotal || bill.midPeakRate || bill.midPeakTotal) :
         bill.billType === 'Tiered' ?
