@@ -1,3 +1,4 @@
+# parse.py
 import pdfplumber 
 import re # helps search for patterns
 
@@ -10,7 +11,7 @@ def extract_text_from_pdf(file_path):
 
     bill_data = {} 
 
-    if "Time-of-Use" in text or "Peak" in text: 
+    if "Time-of-Use" in text or "Peak" in text or "Time of use" in text: 
         bill_data["bill_type"] = "TOU"
         peak = peak = re.search(r"Peak.*?([\d,.]+)\s?kWh", text)
         off_peak = re.search(r"Off[- ]Peak.*?([\d,.]+)\s?kWh", text)
@@ -18,16 +19,34 @@ def extract_text_from_pdf(file_path):
         bill_data["Peak_kWh"] = float(peak.group(1).replace(",", "")) if peak else 0
         bill_data["OffPeak_kWh"] = float(off_peak.group(1).replace(",", "")) if off_peak else 0
         bill_data["MidPeak_kWh"] = float(mid_peak.group(1).replace(",", "")) if mid_peak else 0
+        # --- Rate Extraction ---
+        peak_rate = re.search(r"Peak.*?([\d,.]+)\s?(?:\$|¢)?/?kWh", text, re.IGNORECASE)
+        off_rate = re.search(r"Off[- ]Peak.*?([\d,.]+)\s?(?:\$|¢)?/?kWh", text, re.IGNORECASE)
+        mid_rate = re.search(r"Mid[- ]Peak.*?([\d,.]+)\s?(?:\$|¢)?/?kWh", text, re.IGNORECASE)
+
+        bill_data["Peak_Rate"] = peak_rate.group(1) if peak_rate else None
+        bill_data["OffPeak_Rate"] = off_rate.group(1) if off_rate else None
+        bill_data["MidPeak_Rate"] = mid_rate.group(1) if mid_rate else None
     elif "Tier 1" in text and "Tier 2" in text:
         bill_data["bill_type"] = "Tiered"
         tier1 = re.search(r"Tier 1.*?([\d,.]+)\s?kWh", text)
         tier2 = re.search(r"Tier 2.*?([\d,.]+)\s?kWh", text)
         bill_data["Tier1_kWh"] = float(tier1.group(1).replace(",", "")) if tier1 else 0
         bill_data["Tier2_kWh"] = float(tier2.group(1).replace(",", "")) if tier2 else 0
+        # --- Rate Extraction ---
+        tier1_rate = re.search(r"Tier 1.*?([\d,.]+)\s?(?:\$|¢)?/?kWh", text, re.IGNORECASE)
+        tier2_rate = re.search(r"Tier 2.*?([\d,.]+)\s?(?:\$|¢)?/?kWh", text, re.IGNORECASE)
+
+        bill_data["Tier1_Rate"] = tier1_rate.group(1) if tier1_rate else None
+        bill_data["Tier2_Rate"] = tier2_rate.group(1) if tier2_rate else None
+
     elif "Total Usage" in text:
         bill_data["bill_type"] = "Flat/ULO"
         total = re.search(r"Total Usage.*?([\d,.]+)\s?kWh", text)
         bill_data["Total_kWh"] = float(total.group(1).replace(",", "")) if total else 0
+        # --- Rate Extraction ---
+        flat_rate = re.search(r"([\d,.]+)\s?(?:\$|¢)?/?kWh", text, re.IGNORECASE)
+        bill_data["Rate"] = flat_rate.group(1) if flat_rate else None
     else: 
         # if none of the expected keywords are not found, return invalid 
         return {"error": "Invalid PDF: Could not detect a valid electricity bill."}

@@ -5,7 +5,7 @@ import { ImageWithFallback } from "./figma/ImageWithFallback";
 
 export function Footer() {
   return (
-    <footer className="glass-strong border-t border-white/10 py-20">
+    <footer className="glass-strong border-t border-white/10 py-20"style={{ background: "#0f172a" }}>
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-12 mb-12">
           <div className="col-span-1 md:col-span-2">
@@ -17,7 +17,7 @@ export function Footer() {
                 <h3 className="text-2xl font-bold bg-gradient-to-r from-blue-400 to-green-400 bg-clip-text text-transparent">
                   Save-A-Watt
                 </h3>
-                <p className="text-gray-400">save-a-watt, save-a-lot!</p>
+                <p className="text-gray-400">Save-A-Watt, Save-A-Lot!</p>
               </div>
             </div>
             

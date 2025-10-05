@@ -118,9 +118,9 @@ export function BillUpload({ onAnalyze }: BillUploadProps) {
     ));
   };
 
-  const handleManualSubmit = () => {
+  const handleManualSubmit = async () => {
     const validBills = monthlyBills.filter(bill => {
-      const hasBasicInfo = bill.month && bill.year && bill.billType && bill.zipCode;
+      const hasBasicInfo = bill.month && bill.year && bill.billType;
       const hasUsageData = bill.billType === 'TOU' ?
         (bill.peakRate || bill.peakTotal || bill.offPeakRate || bill.offPeakTotal || bill.midPeakRate || bill.midPeakTotal) :
         bill.billType === 'Tiered' ?
@@ -130,19 +130,39 @@ export function BillUpload({ onAnalyze }: BillUploadProps) {
     });
 
     if (validBills.length > 0) {
+      // Directly pass manual data to AnalysisResults 
       onAnalyze({
-        type: 'manual',
-        data: validBills
-      });
-    }
+        type: "manual",
+        bills: validBills,
+        homeInfo: commonInfo
+      })
+    } 
   };
 
-  const handleFileSubmit = () => {
+  const handleFileSubmit = async () => {
     if (selectedFiles.length > 0) {
-      onAnalyze({
-        type: 'file',
-        data: selectedFiles
-      });
+      try {
+        const formData = new FormData();
+        formData.append("file", selectedFiles[0]);
+        // Optionally add home info if needed by backend
+        Object.entries(commonInfo).forEach(([key, value]) => {
+          formData.append(key, value);
+        });
+
+        const response = await fetch("http://localhost:5000/analyze", {
+          method: "POST",
+          body: formData
+        });
+        if (!response.ok) {
+          throw new Error("Analyze API Error");
+        }
+        const result = await response.json();
+        // Pass parsed result to AnalysisResults
+        console.log("File analysis result:", result);
+        onAnalyze(result);
+      } catch (error) {
+        console.error("File analysis failed:", error);
+      }
     }
   };
 
@@ -212,7 +232,7 @@ export function BillUpload({ onAnalyze }: BillUploadProps) {
   };
 
   const canSubmitManual = monthlyBills.some(bill => {
-    const hasBasicInfo = bill.month && bill.year && bill.billType && bill.zipCode;
+    const hasBasicInfo = bill.month && bill.year && bill.billType;
     const hasUsageData = bill.billType === 'TOU' ?
       (bill.peakRate || bill.peakTotal || bill.offPeakRate || bill.offPeakTotal || bill.midPeakRate || bill.midPeakTotal) :
       bill.billType === 'Tiered' ?
@@ -236,7 +256,7 @@ export function BillUpload({ onAnalyze }: BillUploadProps) {
           </p>
         </div>
         {/* Common Fields */}
-        <div className="space-y-6">
+        <div className="max-w-4xl mx-auto space-y-6">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             <div>
               <Label className="text-xs mb-1 block">Home Size (sq ft)</Label>
@@ -244,22 +264,25 @@ export function BillUpload({ onAnalyze }: BillUploadProps) {
                 placeholder="1200"
                 value={commonInfo.homeSize}
                 onChange={(e) => updateCommonInfo('homeSize', e.target.value)}
+                className = "text-black"
               />
             </div>
             <div>
               <Label className="text-xs mb-1 block">Type of Home</Label>
               <Input
-                placeholder="3"
+                placeholder="House, Apartment, Condo..."
                 value={commonInfo.kindOfHome}
                 onChange={(e) => updateCommonInfo('kindOfHome', e.target.value)}
+                className = "text-black"
               />
             </div>
             <div>
               <Label className="text-xs mb-1 block">ZIP Code</Label>
               <Input
-                placeholder="10001"
+                placeholder="MD2DK6"
                 value={commonInfo.zipCode}
                 onChange={(e) => updateCommonInfo('zipCode', e.target.value)}
+                className = "text-black"
               />
             </div>
           </div>
@@ -268,9 +291,10 @@ export function BillUpload({ onAnalyze }: BillUploadProps) {
             <div>
               <Label className="text-xs mb-1 block"># of Adults</Label>
               <Input
-                placeholder="1200"
+                placeholder="2"
                 value={commonInfo.adults}
                 onChange={(e) => updateCommonInfo('adults', e.target.value)}
+                className = "text-black"
               />
             </div>
             <div>
@@ -279,52 +303,49 @@ export function BillUpload({ onAnalyze }: BillUploadProps) {
                 placeholder="3"
                 value={commonInfo.children}
                 onChange={(e) => updateCommonInfo('children', e.target.value)}
+                className = "text-black"
               />
             </div>
             <div>
               <Label className="text-xs mb-1 block">Annual Income</Label>
               <Input
-                placeholder="10001"
+                placeholder="100000"
                 value={commonInfo.annualIncome}
                 onChange={(e) => updateCommonInfo('annualIncome', e.target.value)}
+                className = "text-black"
               />
             </div>
           </div>
-
-          {/* Add space after final row */}
           <div className="h-6"></div>
         </div>
-        <div className="text-center mb-16 animate-bounce-in">
-          <p className="text-xl text-gray-300 max-w-4xl mx-auto">
-            Upload your energy bills or enter your usage details to get personalized energy-saving advice.
-          </p>
-        </div>
+
         <div className="max-w-4xl mx-auto">
           <Tabs defaultValue="demo" className="w-full">
-            <TabsList className="flex justify-center items-center w-full grid-cols-3 glass-strong border border-white/10 p-1 rounded-2xl">
+            <TabsList className="flex justify-between items-center w-full bg-white/5 backdrop-blur-md border border-white/10 p-1 rounded-2xl gap-2 py-8">
               <TabsTrigger 
                 value="demo" 
-                className="py-2 px-4 text-lg rounded-xl data-[state=active]:bg-gradient-to-r data-[state=active]:from-blue-500 data-[state=active]:to-blue-600 data-[state=active]:text-white transition-all duration-300"
+                className="flex-1 py-6 text-lg text-center rounded-xl data-[state=active]:bg-gradient-to-r data-[state=active]:from-blue-500 data-[state=active]:to-blue-600 data-[state=active]:text-white transition-all duration-300"
               >
                 Quick Demo
               </TabsTrigger>
               <TabsTrigger 
                 value="upload"
-                className="py-2 px-4 text-lg rounded-xl data-[state=active]:bg-gradient-to-r data-[state=active]:from-green-500 data-[state=active]:to-green-600 data-[state=active]:text-white transition-all duration-300"
+                className="flex-1 py-6 text-lg text-center rounded-xl data-[state=active]:bg-gradient-to-r data-[state=active]:from-green-500 data-[state=active]:to-green-600 data-[state=active]:text-white transition-all duration-300"
               >
                 Upload Bills
               </TabsTrigger>
               <TabsTrigger 
                 value="manual"
-                className="py-2 px-4 text-lg rounded-xl data-[state=active]:bg-gradient-to-r data-[state=active]:from-purple-500 data-[state=active]:to-purple-600 data-[state=active]:text-white transition-all duration-300"
+                className="flex-1 py-6 text-lg text-center rounded-xl data-[state=active]:bg-gradient-to-r data-[state=active]:from-purple-500 data-[state=active]:to-purple-600 data-[state=active]:text-white transition-all duration-300"
               >
                 Enter Manually
               </TabsTrigger>
             </TabsList>
             
+            <div className="h-6"></div>
             {/* Demo Content */}
             <TabsContent value="demo" className="space-y-6 animate-slide-up">
-              <Card className="glass-strong border-white/10 hover-lift">
+              <Card className="glass-strong border-white/10">
                 <CardHeader>
                   <CardTitle className="flex items-center gap-3 text-white">
                     <div className="flex items-center justify-center w-10 h-10 bg-gradient-to-br from-blue-500 to-blue-600 rounded-xl">
@@ -355,7 +376,7 @@ export function BillUpload({ onAnalyze }: BillUploadProps) {
                     className="w-full bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white py-4 text-lg font-semibold rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105" 
                     size="lg"
                   >
-                    🚀 Run Sample Analysis
+                    Run Sample Analysis
                   </Button>
                 </CardContent>
               </Card>

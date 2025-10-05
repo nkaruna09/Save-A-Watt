@@ -10,9 +10,9 @@ export function Header({ onGetStarted }: HeaderProps) {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   return (
-    <header className="glass-strong sticky top-0 z-50 border-b border-white/10">
+    <header className="glass-strong sticky top-0 z-50 border-b border-white/10" style={{ background: "#0f172a" }}>
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between items-center h-18">
+        <div className="flex justify-between items-center h-24">
           <div className="flex items-center gap-3">
             <div className="relative">
               <div className="flex items-center justify-center w-12 h-12 bg-gradient-to-br from-blue-500 to-blue-600 rounded-xl animate-pulse-glow">
@@ -24,7 +24,7 @@ export function Header({ onGetStarted }: HeaderProps) {
               <h1 className="text-xl font-bold bg-gradient-to-r from-blue-400 to-green-400 bg-clip-text text-transparent">
                 Save-A-Watt
               </h1>
-              <p className="text-sm text-gray-400">save-a-watt, save-a-lot!</p>
+              <p className="text-sm text-gray-400">Save-A-Watt, Save-A-Lot!</p>
             </div>
           </div>
 

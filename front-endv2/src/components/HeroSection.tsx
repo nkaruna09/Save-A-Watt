@@ -72,13 +72,13 @@ export function HeroSection({ onGetStarted }: HeroSectionProps) {
                 </span>
                 <br />
                 <span className="bg-gradient-to-r from-green-400 via-blue-400 to-purple-400 bg-clip-text text-transparent animate-gradient">
-                  with Smart AI
+                  with Save-A-Watt
                 </span>
               </h1>
               
               <p className="text-lg lg:text-xl text-gray-300 leading-relaxed max-w-2xl">
                 Get personalized energy-saving tips and find subsidies you qualify for. 
-                Our AI analyzes your energy usage and helps you save money every month.
+                {/*Our AI analyzes your energy usage and helps you save money every month.*/}
               </p>
             </div>
             
@@ -90,7 +90,7 @@ export function HeroSection({ onGetStarted }: HeroSectionProps) {
               >
                 <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -skew-x-12 translate-x-[-100%] group-hover:translate-x-[200%] transition-transform duration-1000"></div>
                 <span className="relative flex items-center gap-3">
-                  💰 Start Saving Money Now
+                  Start Saving Money Now
                   <ArrowRight className="w-6 h-6 group-hover:translate-x-2 transition-transform duration-300" />
                 </span>
               </Button>
@@ -109,7 +109,7 @@ export function HeroSection({ onGetStarted }: HeroSectionProps) {
               </div>
               <div className="text-center group hover-lift">
                 <div className="text-3xl font-bold text-green-400 mb-1 animate-counter">
-                  $<AnimatedCounter end={50} />
+                  $<AnimatedCounter end={30} />
                 </div>
                 <div className="text-sm text-gray-400 group-hover:text-gray-300 transition-colors">
                   Avg monthly savings
@@ -131,9 +131,11 @@ export function HeroSection({ onGetStarted }: HeroSectionProps) {
             <div className="relative z-10">
               <div className="relative overflow-hidden rounded-3xl shadow-2xl hover-lift">
                 <ImageWithFallback
-                  src="https://images.unsplash.com/photo-1704536345283-18e559576ec2?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxlbmVyZ3klMjBlZmZpY2llbmN5JTIwaG9tZSUyMGxpZ2h0YnVsYnxlbnwxfHx8fDE3NTk1NDk4ODF8MA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral"
+                  src="https://images.unsplash.com/photo-1588422273146-c799447ccb81?q=80&w=387&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+              
+                
                   alt="Energy efficient home with LED lightbulb"
-                  className="w-full h-[350px] lg:h-[400px] object-cover"
+                  className="w-[400px] lg:h-[450px] object-cover"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-blue-900/50 to-transparent"></div>
               </div>

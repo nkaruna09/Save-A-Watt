@@ -1,3 +1,5 @@
+import os
+from werkzeug.utils import secure_filename
 from flask import Blueprint, jsonify, request
 from .parse import extract_text_from_pdf
 from .gemini import call_gemini_api

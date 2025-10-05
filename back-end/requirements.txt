@@ -5,4 +5,3 @@ pdfminer.six
 Pillow
 requests
 python-dotenv
-catboost
