@@ -118,7 +118,7 @@ export function BillUpload({ onAnalyze }: BillUploadProps) {
     ));
   };
 
-  const handleManualSubmit = () => {
+  const handleManualSubmit = async () => {
     const validBills = monthlyBills.filter(bill => {
       const hasBasicInfo = bill.month && bill.year && bill.billType && bill.zipCode;
       const hasUsageData = bill.billType === 'TOU' ?
@@ -130,19 +130,39 @@ export function BillUpload({ onAnalyze }: BillUploadProps) {
     });
 
     if (validBills.length > 0) {
+      // Directly pass manual data to AnalysisResults 
       onAnalyze({
-        type: 'manual',
-        data: validBills
-      });
-    }
+        type: "manual",
+        bills: validBills,
+        homeInfo: commonInfo
+      })
+    } 
   };
 
-  const handleFileSubmit = () => {
+  const handleFileSubmit = async () => {
     if (selectedFiles.length > 0) {
-      onAnalyze({
-        type: 'file',
-        data: selectedFiles
-      });
+      try {
+        const formData = new FormData();
+        formData.append("file", selectedFiles[0]);
+        // Optionally add home info if needed by backend
+        Object.entries(commonInfo).forEach(([key, value]) => {
+          formData.append(key, value);
+        });
+
+        const response = await fetch("http://localhost:5000/analyze", {
+          method: "POST",
+          body: formData
+        });
+        if (!response.ok) {
+          throw new Error("Analyze API Error");
+        }
+        const result = await response.json();
+        // Pass parsed result to AnalysisResults
+        console.log("File analysis result:", result);
+        onAnalyze(result);
+      } catch (error) {
+        console.error("File analysis failed:", error);
+      }
     }
   };
 
@@ -212,7 +232,7 @@ export function BillUpload({ onAnalyze }: BillUploadProps) {
   };
 
   const canSubmitManual = monthlyBills.some(bill => {
-    const hasBasicInfo = bill.month && bill.year && bill.billType && bill.zipCode;
+    const hasBasicInfo = bill.month && bill.year && bill.billType;
     const hasUsageData = bill.billType === 'TOU' ?
       (bill.peakRate || bill.peakTotal || bill.offPeakRate || bill.offPeakTotal || bill.midPeakRate || bill.midPeakTotal) :
       bill.billType === 'Tiered' ?
