@@ -166,12 +166,12 @@ export function HowItWorks() {
           <div className="relative animate-float">
             <div className="relative overflow-hidden rounded-3xl shadow-2xl hover-lift">
               <ImageWithFallback
-                src="https://images.unsplash.com/photo-1711344397160-b23d5deaa012?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxmYW1pbHklMjBidWRnZXQlMjBjYWxjdWxhdG9yfGVufDF8fHx8MTc1OTU0OTkwOHww&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral"
+                src="https://cdn.pixabay.com/photo/2014/07/06/13/55/calculator-385506_1280.jpg"
                 alt="Family working on budget and calculations"
-                className="w-full h-[400px] object-cover"
+                className="w-[px] h-[400px] object-cover"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-purple-900/50 to-transparent"></div>
-            </div>
+            </div> 
             
             {/* Floating elements */}
             <div className="absolute -top-4 -right-4 w-24 h-24 bg-gradient-to-br from-green-500/20 to-blue-500/20 rounded-full blur-xl animate-pulse"></div>
