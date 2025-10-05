@@ -4,13 +4,10 @@ pdfplumber
 pdfminer.six
 Pillow
 requests
-<<<<<<< Updated upstream
 pandas
 numpy
 scikit-learn
 catboost
-=======
->>>>>>> Stashed changes
 python-dotenv
 google-generativeai
 pillow>=10.0.0,<11
