@@ -115,7 +115,7 @@ export function AnalysisResults({ data }: AnalysisResultsProps) {
             <CardContent className="p-6">
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-sm text-gray-600">Current Monthly Bill</p>
+                  <p className="text-xl text-gray-600">Current Monthly Bill</p>
                   <p className="text-2xl font-bold text-gray-900">${results.currentBill}</p>
                 </div>
                 <DollarSign className="w-8 h-8 text-red-500" />
@@ -126,7 +126,7 @@ export function AnalysisResults({ data }: AnalysisResultsProps) {
             <CardContent className="p-6">
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-sm text-gray-600">Potential Savings</p>
+                  <p className="text-xl text-gray-600">Potential Savings</p>
                   <p className="text-2xl font-bold text-green-600">${results.estimatedSavings}/mo</p>
                 </div>
                 <TrendingDown className="w-8 h-8 text-green-500" />
@@ -137,7 +137,7 @@ export function AnalysisResults({ data }: AnalysisResultsProps) {
             <CardContent className="p-6">
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-sm text-gray-600">Annual Savings</p>
+                  <p className="text-xl text-gray-600">Annual Savings</p>
                   <p className="text-2xl font-bold text-blue-600">${results.estimatedSavings * 12}</p>
                 </div>
                 <Zap className="w-8 h-8 text-blue-500" />
@@ -148,7 +148,7 @@ export function AnalysisResults({ data }: AnalysisResultsProps) {
             <CardContent className="p-6">
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-sm text-gray-600">Efficiency Score</p>
+                  <p className="text-xl text-gray-600">Efficiency Score</p>
                   <p className="text-2xl font-bold text-purple-600">{results.efficiencyScore}/100</p>
                 </div>
                 <Home className="w-8 h-8 text-purple-500" />
@@ -160,11 +160,11 @@ export function AnalysisResults({ data }: AnalysisResultsProps) {
         {/* Efficiency Progress */}
         <Card className="mb-12 border border-gray-300 rounded-xl shadow-sm">
           <CardHeader>
-            <CardTitle className="flex items-center text-green-600 gap-2 font-bold">
+            <CardTitle className="flex items-center text-2xl text-green-600 gap-2 font-bold">
               <TrendingDown className="w-5 h-5 text-green-600"/>
               Your Energy Efficiency
             </CardTitle>
-            <CardDescription className="text-black">
+            <CardDescription className="text-black text-xl">
               Your home scores {results.efficiencyScore}/100. Here's how you compare to similar homes:
             </CardDescription>
           </CardHeader>
@@ -172,16 +172,16 @@ export function AnalysisResults({ data }: AnalysisResultsProps) {
             <div className="space-y-4">
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm">
                 <div className="text-center p-3 bg-red-50 rounded-lg">
-                  <div className="font-semibold text-red-700">Below Average</div>
-                  <div className="text-red-600">0-40</div>
+                  <div className="font-semibold text-xl text-red-700">Below Average</div>
+                  <div className="text-red-600 text-xl">0-40</div>
                 </div>
                 <div className="text-center p-3 bg-yellow-50 rounded-lg">
-                  <div className="font-semibold text-yellow-700">Average</div>
-                  <div className="text-yellow-600">41-75</div>
+                  <div className="font-semibold text-xl text-yellow-700">Average</div>
+                  <div className="text-yellow-600 text-xl">41-75</div>
                 </div>
                 <div className="text-center p-3 bg-green-50 rounded-lg">
-                  <div className="font-semibold text-green-700">Excellent</div>
-                  <div className="text-green-600">76-100</div>
+                  <div className="font-semibold text-xl text-green-700">Excellent</div>
+                  <div className="text-green-600 text-xl">76-100</div>
                 </div>
               </div>
             </div>
@@ -190,7 +190,7 @@ export function AnalysisResults({ data }: AnalysisResultsProps) {
 
         {/* Energy Saving Tips */}
         <div className="mb-12">
-          <h3 className="text-2xl font-bold text-gray-900 mb-6 flex items-center gap-2">
+          <h3 className="text-3xl font-bold text-gray-900 mb-6 flex items-center gap-2">
             <Lightbulb className="w-6 h-6 text-yellow-500" />
             Personalized Energy-Saving Tips
           </h3>
@@ -199,17 +199,14 @@ export function AnalysisResults({ data }: AnalysisResultsProps) {
               <Card key={index} className="border-l-4 border-l-blue-500">
                 <CardHeader>
                   <div className="flex justify-between items-start">
-                    <CardTitle className="text-lg text-black">{tip.title}</CardTitle>
-                    <Badge variant={tip.effort === "Easy" ? "default" : "secondary"}>
-                      {tip.effort}
-                    </Badge>
+                    <CardTitle className="text-2xl text-black font-bold">{tip.title}</CardTitle>
                   </div>
-                  <CardDescription className="text-green-600 font-semibold">
+                  <CardDescription className="text-green-600 text-xl font-semibold">
                     Save {tip.savings}
                   </CardDescription>
                 </CardHeader>
                 <CardContent className="space-y-3">
-                  <p className="text-gray-700">{tip.description}</p>
+                  <p className="text-gray-700 text-xl/6">{tip.description}</p>
                   <div className="grid grid-cols-2 gap-3 text-sm">
                     <div>
                       <span className="font-semibold text-black">Upfront cost:</span>
@@ -222,7 +219,7 @@ export function AnalysisResults({ data }: AnalysisResultsProps) {
                   </div>
                   <div className="flex items-center gap-2 text-green-600">
                     <CheckCircle className="w-4 h-4" />
-                    <span className="text-sm">Recommended for your home</span>
+                    <span className="text-xl">Recommended for your home</span>
                   </div>
                 </CardContent>
               </Card>
@@ -232,7 +229,7 @@ export function AnalysisResults({ data }: AnalysisResultsProps) {
 
         {/* Available Subsidies */}
         <div>
-          <h3 className="text-2xl font-bold text-gray-900 mb-6 flex items-center gap-2">
+          <h3 className="text-3xl font-bold text-gray-900 mb-6 flex items-center gap-2">
             <Gift className="w-6 h-6 text-purple-500" />
             Available Subsidies & Programs
           </h3>
@@ -242,8 +239,8 @@ export function AnalysisResults({ data }: AnalysisResultsProps) {
                 <CardHeader>
                   <div className="flex justify-between items-start">
                     <div>
-                      <CardTitle className="text-xl text-black">{subsidy.name}</CardTitle>
-                      <CardDescription className="text-green-600 font-semibold text-lg">
+                      <CardTitle className="text-2xl text-black font-bold">{subsidy.name}</CardTitle>
+                      <CardDescription className="text-green-600 font-semibold text-xl">
                         {subsidy.amount}
                       </CardDescription>
                     </div>
@@ -253,7 +250,7 @@ export function AnalysisResults({ data }: AnalysisResultsProps) {
                   </div>
                 </CardHeader>
                 <CardContent className="space-y-4">
-                  <p className="text-gray-700">{subsidy.description}</p>
+                  <p className="text-gray-700 text-xl/6">{subsidy.description}</p>
                   
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div>
@@ -274,7 +271,7 @@ export function AnalysisResults({ data }: AnalysisResultsProps) {
 
         {/* Call to Action */}
         <div className="mt-16 text-center bg-blue-50 rounded-2xl p-8">
-          <h3 className="text-2xl font-bold text-gray-900 mb-4">
+          <h3 className="text-3xl font-bold text-gray-900 mb-4">
             Ready to Start Saving?
           </h3>
           <p className="text-gray-600 mb-6 max-w-2xl mx-auto">
