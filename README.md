@@ -30,7 +30,7 @@ flowchart LR
         ML["ML_model/<br/>CatBoost bill predictors<br/>(prototype, not yet wired in)"]
     end
 
-    Gemini[["Google Gemini API<br/>gemini-2.5-flash"]]
+    Gemini[["Google Gemini API<br/>gemini-3.8-flash"]]
 
     User --> Home
     Home -- "PDF / image upload" --> Routes
