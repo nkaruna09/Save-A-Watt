@@ -1,1 +1,20 @@
-node_modules
+# Dependencies
+node_modules/
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+
+# Secrets
+.env
+
+# Runtime / training artifacts
+back-end/tmp/
+catboost_info/
+
+# OS / editor
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/

@@ -39,7 +39,7 @@ def analyze():
 
         text = extract_text_from_pdf(fpath)
         if text == "":
-            text = ocr_to_text(file.read(), psm=6)
+            text = ocr_to_text(fpath, psm=6)
 
         bill_data = parse_bill_data(text)
             

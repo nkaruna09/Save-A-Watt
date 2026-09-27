@@ -7,7 +7,8 @@ app = Flask(__name__)
 CORS(app, resources={r"/*": {"origins": "*"}}, supports_credentials=True)
 
 cmd = os.getenv("TESSERACT_CMD")
-pytesseract.pytesseract.tesseract_cmd = cmd
+if cmd:
+    pytesseract.pytesseract.tesseract_cmd = cmd
 
 app.register_blueprint(bp)
 
